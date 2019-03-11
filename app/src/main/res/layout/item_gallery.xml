@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="110dp"
+        android:layout_margin="@dimen/global_margin_normal"
+        android:layout_height="170dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:padding="@dimen/global_padding_small"
+            android:orientation="vertical"
+            android:layout_height="match_parent">
+
+        <ImageView
+                android:id="@+id/imageProject"
+                android:src="@drawable/ph_gallery_item"
+                android:scaleType="centerInside"
+                android:layout_width="match_parent"
+                android:layout_height="140dp"
+                android:contentDescription="@null"/>
+
+        <TextView
+                android:id="@+id/labelFileName"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/text_size_small"
+                tools:text="Label text large testing"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

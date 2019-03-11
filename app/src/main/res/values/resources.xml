@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="fabSave" type="id" />
+    <item name="fabGallery" type="id" />
+    <item name="fabHydro" type="id" />
+    <item name="fabGas" type="id" />
+</resources>
