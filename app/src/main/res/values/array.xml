@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type_building">
+        <item>Casa</item>
+        <item>Edificio</item>
+        <item>Apartamento</item>
+    </string-array>
+
+    <string-array name="measure_type">
+        <item>cm</item>
+        <item>m</item>
+    </string-array>
+</resources>

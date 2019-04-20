@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/global_padding_normal"
+        android:background="@android:color/white">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputHunterUnits"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:layout_constraintTop_toBottomOf="@id/spinnerTypeBuilding"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_label_hunter_units">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textHunterUnits"
+                android:layout_width="match_parent"
+                android:inputType="number"
+                android:maxLength="10"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputMeasurerCapacity"
+            app:layout_constraintTop_toBottomOf="@id/inputHunterUnits"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="300dp"
+            android:theme="@style/TextInputLayoutAppearance"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_label_measurer_capacity">
+
+        <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textMeasurerCapacity"
+                android:layout_width="match_parent"
+                android:inputType="number"
+                android:maxLength="10"
+                android:textColor="@color/colorPrimary"
+                android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+            android:layout_width="wrap_content"
+            android:text="@string/button_label_accept"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonAccept"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/inputMeasurerCapacity"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

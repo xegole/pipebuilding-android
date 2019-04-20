@@ -2,6 +2,7 @@ package com.bigthinkapps.pipebuilding.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.bigthinkapps.pipebuilding.R
@@ -46,6 +47,8 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                 imageBGCanvas.setImageByFile(file)
             }
         }
+
+        showCustomDialog()
     }
 
     override fun onActionSelected(actionItem: SpeedDialActionItem?): Boolean {
@@ -92,5 +95,10 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                 imageBGCanvas.imageByData(it.data!!)
             }
         }
+    }
+
+    private fun showCustomDialog() {
+        val viewGroup = findViewById<ViewGroup>(android.R.id.content)
+        viewModel.showDialogInputData(fragmentManager = supportFragmentManager)
     }
 }

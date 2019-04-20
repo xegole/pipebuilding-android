@@ -8,10 +8,13 @@ import android.graphics.Bitmap
 import android.os.Environment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.AndroidViewModel
 import com.bigthinkapps.pipebuilding.R
 import com.bigthinkapps.pipebuilding.extension.checkPermissions
 import com.bigthinkapps.pipebuilding.extension.getString
+import com.bigthinkapps.pipebuilding.ui.InputDataDialog
+import com.bigthinkapps.pipebuilding.ui.InputUserDataDialog
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_CODE_GALLERY
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_PERMISSION_GALLERY
 import com.bigthinkapps.pipebuilding.util.Constants
@@ -22,6 +25,9 @@ import java.io.FileOutputStream
 
 
 class EditViewModel(application: Application) : AndroidViewModel(application) {
+
+    var buildingType = -1
+    var measureType = -1
 
     fun goToGallery(activity: AppCompatActivity) {
         val intent = Intent(Intent.ACTION_PICK)
@@ -92,6 +98,14 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
 
         if (!allGranted) {
             activity.finish()
+        }
+    }
+
+    fun showDialogInputData(fragmentManager: FragmentManager) {
+        InputDataDialog().show(fragmentManager) {
+            InputUserDataDialog().show(fragmentManager){
+
+            }
         }
     }
 }

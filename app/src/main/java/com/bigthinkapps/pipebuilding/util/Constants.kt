@@ -8,4 +8,8 @@ object Constants {
 
     const val FOLDER_PROJECTS = "/.pipeBuilding/"
     const val QUALITY_IMAGE = 100
+
+    const val FIRST_ITEM = 0
+    const val TAG_DIALOG = "dialog"
+    const val TAG_DIALOG_USER = "dialog_user"
 }
