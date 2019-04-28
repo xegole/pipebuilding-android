@@ -26,11 +26,15 @@ class FingerLine : View {
     private var endX: Float = 0.toFloat()
     private var endY: Float = 0.toFloat()
 
+    var measureHeight = 0.0
+    var measureWidth = 0.0
+
     private lateinit var canvasBitmap: Bitmap
     private lateinit var drawCanvas: Canvas
     private lateinit var canvasBitmapLines: Bitmap
     private lateinit var drawCanvasLines: Canvas
 
+    lateinit var addMeasurePipeline: (Double) -> Unit
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs, 0) {
@@ -76,8 +80,8 @@ class FingerLine : View {
         motionEvent.ifNotNull { event ->
             when (event.action) {
                 MotionEvent.ACTION_DOWN -> {
-                    startX = if(endX == 0.toFloat()) event.x else endX
-                    startY = if(endY == 0.toFloat()) event.y else endY
+                    startX = if (endX == 0.toFloat()) event.x else endX
+                    startY = if (endY == 0.toFloat()) event.y else endY
                     endX = event.x
                     endY = event.y
                 }
@@ -89,11 +93,23 @@ class FingerLine : View {
                     endX = event.x
                     endY = event.y
                     drawCanvas.drawLine(startX, startY, endX, endY, paint)
+                    addMeasurePipeline(getDistance())
                 }
             }
         }
         invalidate()
         return true
+    }
+
+    private fun getDistance(): Double {
+        val dx = (startX - endX) * measureWidth
+        val dy = (startY - endY) * measureHeight
+        return Math.sqrt(((dx * dx) + (dy * dy)))
+    }
+
+    fun initPipeline() {
+        endX = 0.toFloat()
+        endY = 0.toFloat()
     }
 
 

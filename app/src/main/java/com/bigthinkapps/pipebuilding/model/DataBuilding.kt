@@ -9,4 +9,7 @@ class DataBuilding {
     var totalApartments = 0
     var population = 0
     var timeFullTank = 0L
+    var heightCanvas = 0
+    var widthCancas = 0
+    var viscosity = ""
 }

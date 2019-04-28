@@ -1,0 +1,182 @@
+[
+ {
+   "temperature": 0,
+   "viscosity": "0.000001792"
+ },
+ {
+   "temperature": 1,
+   "viscosity": "0.000001732"
+ },
+ {
+   "temperature": 2,
+   "viscosity": "0.000001674"
+ },
+ {
+   "temperature": 3,
+   "viscosity": "0.000001619"
+ },
+ {
+   "temperature": 4,
+   "viscosity": "0.000001568"
+ },
+ {
+   "temperature": 5,
+   "viscosity": "0.000001519"
+ },
+ {
+   "temperature": 6,
+   "viscosity": "0.000001473"
+ },
+ {
+   "temperature": 7,
+   "viscosity": "0.000001429"
+ },
+ {
+   "temperature": 8,
+   "viscosity": "0.000001387"
+ },
+ {
+   "temperature": 9,
+   "viscosity": "0.000001348"
+ },
+ {
+   "temperature": 10,
+   "viscosity": "0.000001310"
+ },
+ {
+   "temperature": 11,
+   "viscosity": "0.000001274"
+ },
+ {
+   "temperature": 12,
+   "viscosity": "0.000001239"
+ },
+ {
+   "temperature": 13,
+   "viscosity": "0.000001206"
+ },
+ {
+   "temperature": 14,
+   "viscosity": "0.000001175"
+ },
+ {
+   "temperature": 15,
+   "viscosity": "0.000001145"
+ },
+ {
+   "temperature": 16,
+   "viscosity": "0.000001116"
+ },
+ {
+   "temperature": 17,
+   "viscosity": "0.000001088"
+ },
+ {
+   "temperature": 18,
+   "viscosity": "0.000001060"
+ },
+ {
+   "temperature": 19,
+   "viscosity": "0.000001034"
+ },
+ {
+   "temperature": 20,
+   "viscosity": "0.000001009"
+ },
+ {
+   "temperature": 21,
+   "viscosity": "0.000000984"
+ },
+ {
+   "temperature": 22,
+   "viscosity": "0.000000961"
+ },
+ {
+   "temperature": 23,
+   "viscosity": "0.000000938"
+ },
+ {
+   "temperature": 24,
+   "viscosity": "0.000000916"
+ },
+ {
+   "temperature": 25,
+   "viscosity": "0.000000895"
+ },
+ {
+   "temperature": 26,
+   "viscosity": "0.000000875"
+ },
+ {
+   "temperature": 27,
+   "viscosity": "0.000000855"
+ },
+ {
+   "temperature": 28,
+   "viscosity": "0.000000836"
+ },
+ {
+   "temperature": 29,
+   "viscosity": "0.000000818"
+ },
+ {
+   "temperature": 30,
+   "viscosity": "0.000000800"
+ },
+ {
+   "temperature": 35,
+   "viscosity": "0.000000723"
+ },
+ {
+   "temperature": 40,
+   "viscosity": "0.000000656"
+ },
+ {
+   "temperature": 45,
+   "viscosity": "0.000000599"
+ },
+ {
+   "temperature": 50,
+   "viscosity": "0.000000549"
+ },
+ {
+   "temperature": 55,
+   "viscosity": "0.000000506"
+ },
+ {
+   "temperature": 60,
+   "viscosity": "0.000000469"
+ },
+ {
+   "temperature": 65,
+   "viscosity": "0.000000469"
+ },
+ {
+   "temperature": 70,
+   "viscosity": "0.000000406"
+ },
+ {
+   "temperature": 75,
+   "viscosity": "0.000000380"
+ },
+ {
+   "temperature": 80,
+   "viscosity": "0.000000357"
+ },
+ {
+   "temperature": 85,
+   "viscosity": "0.000000336"
+ },
+ {
+   "temperature": 90,
+   "viscosity": "0.000000317"
+ },
+ {
+   "temperature": 95,
+   "viscosity": "0.000000299"
+ },
+ {
+   "temperature": 100,
+   "viscosity": "0.000000284"
+ }
+]

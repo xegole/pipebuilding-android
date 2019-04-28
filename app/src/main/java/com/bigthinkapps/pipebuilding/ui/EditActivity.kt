@@ -2,16 +2,20 @@ package com.bigthinkapps.pipebuilding.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.ViewGroup
+import android.util.DisplayMetrics
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bigthinkapps.pipebuilding.R
 import com.bigthinkapps.pipebuilding.extension.getBitmapScreen
 import com.bigthinkapps.pipebuilding.extension.ifNotNull
 import com.bigthinkapps.pipebuilding.extension.imageByData
 import com.bigthinkapps.pipebuilding.extension.setImageByFile
+import com.bigthinkapps.pipebuilding.model.DataUser
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_CODE_GALLERY
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_PERMISSION_GALLERY
+import com.bigthinkapps.pipebuilding.util.DataFinalSectionUtils
 import com.bigthinkapps.pipebuilding.util.ExtrasContants
 import com.bigthinkapps.pipebuilding.viewmodel.EditViewModel
 import com.bigthinkapps.pipebuilding.widget.TypePipeline
@@ -28,6 +32,11 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(EditViewModel::class.java)
     }
+
+    private val listData = ArrayList<DataUser>()
+    private var tempData: DataUser? = null
+    private var viscosity: Double = 0.0
+    private var currentPressure = 15.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +57,47 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
             }
         }
 
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val width = displayMetrics.widthPixels
+        val height = displayMetrics.heightPixels
+
         showCustomDialog()
+        viewModel.inputDataBuilding.observe(this, Observer {
+            val measureHeight = it.heightCanvas.toDouble() / height.toDouble()
+            val measureWidth = it.widthCancas.toDouble() / width.toDouble()
+            fingerLineEdit.measureHeight = measureHeight / 100.0
+            fingerLineEdit.measureWidth = measureWidth / 100.0
+            viscosity = it.viscosity.toDouble()
+        })
+
+        fingerLineEdit.addMeasurePipeline = {
+            InputUserDataDialog().show(it, supportFragmentManager) { data, isFinish ->
+                if (isFinish) {
+                    fingerLineEdit.initPipeline()
+                    if (tempData == null) {
+                        currentPressure =
+                            DataFinalSectionUtils.getFinalPressureSection(data, viscosity, currentPressure)
+                        Log.d("dataTest", "Presion final del tramo.. $currentPressure")
+                        listData.add(data)
+                        currentPressure = 15.0
+                    } else {
+                        tempData?.let { dataUser ->
+                            dataUser.sum(data)
+                            listData.add(dataUser)
+                            tempData = null
+                        }
+                    }
+
+                } else {
+                    if (tempData == null) {
+                        tempData = data
+                    } else {
+                        tempData?.sum(data)
+                    }
+                }
+            }
+        }
     }
 
     override fun onActionSelected(actionItem: SpeedDialActionItem?): Boolean {
@@ -98,7 +147,6 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
     }
 
     private fun showCustomDialog() {
-        val viewGroup = findViewById<ViewGroup>(android.R.id.content)
         viewModel.showDialogInputData(fragmentManager = supportFragmentManager)
     }
 }

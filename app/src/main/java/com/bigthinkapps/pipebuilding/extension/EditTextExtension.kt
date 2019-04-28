@@ -10,3 +10,12 @@ fun AppCompatEditText.getInt(): Int {
         data.toInt()
     }
 }
+
+fun AppCompatEditText.getDouble(): Double {
+    val data = this.text.toString()
+    return if (data.isEmpty()) {
+        0.0
+    } else {
+        data.toDouble()
+    }
+}
