@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
+import com.bigthinkapps.pipebuilding.AppCore
 import com.bigthinkapps.pipebuilding.R
 import com.bigthinkapps.pipebuilding.extension.getDouble
 import com.bigthinkapps.pipebuilding.extension.getInt
@@ -21,7 +22,7 @@ import kotlinx.android.synthetic.main.dialog_input_data_user.*
 class InputUserDataDialog : DialogFragment() {
 
     private val dataUser = DataUser()
-    private lateinit var result: (DataUser, Boolean) -> Unit?
+    private lateinit var result: (DataUser, Boolean, Boolean) -> Unit?
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_input_data_user, container, false)
@@ -32,7 +33,7 @@ class InputUserDataDialog : DialogFragment() {
         buttonAccept.setOnClickListener { setData(false) }
         buttonFinish.setOnClickListener { setData(true) }
 
-        val labelMeasurePipelineText = "Longitud aprox ${dataUser.measurePipeline} m"
+        val labelMeasurePipelineText = "Longitud aprox ${AppCore.decimalFormatter.format(dataUser.measurePipeline)} m"
         labelMeasurePipeline.text = labelMeasurePipelineText
 
         checkVerticalLongitude.setOnCheckedChangeListener { _, isChecked ->
@@ -54,7 +55,7 @@ class InputUserDataDialog : DialogFragment() {
         }
     }
 
-    fun show(measurePipeline: Double, fragmentManager: FragmentManager, result: (DataUser, Boolean) -> Unit) {
+    fun show(measurePipeline: Double, fragmentManager: FragmentManager, result: (DataUser, Boolean, Boolean) -> Unit) {
         show(fragmentManager, TAG_DIALOG_USER)
         this.result = result
         dataUser.measurePipeline = measurePipeline
@@ -65,7 +66,7 @@ class InputUserDataDialog : DialogFragment() {
         dataUser.ks = textKs.getDouble()
         dataUser.measurePipeline += textVerticalLongitude.getDouble()
         dataUser.measurePipeline += textLongitudeAccessories.getDouble()
-        result.invoke(dataUser, isFinish)
+        result.invoke(dataUser, isFinish, checkLastRoute.isChecked)
         dismiss()
     }
 }

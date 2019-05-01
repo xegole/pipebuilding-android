@@ -3,7 +3,7 @@ package com.bigthinkapps.pipebuilding.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,12 +22,10 @@ import com.bigthinkapps.pipebuilding.widget.TypePipeline
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import kotlinx.android.synthetic.main.activity_edit.*
-import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
 import java.io.File
 
 
-class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener,
-    DiscreteSeekBar.OnProgressChangeListener {
+class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener {
 
     private val viewModel by lazy {
         ViewModelProviders.of(this).get(EditViewModel::class.java)
@@ -48,7 +46,6 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
     private fun initUI() {
         viewModel.addFabActions(speedDialEdit)
         speedDialEdit.setOnActionSelectedListener(this)
-        seekBarDiameterPipeline.setOnProgressChangeListener(this)
 
         intent.extras.ifNotNull {
             val fileGallery = it.getSerializable(ExtrasContants.EXTRA_GALLERY_FILE) as File
@@ -62,25 +59,29 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
         val width = displayMetrics.widthPixels
         val height = displayMetrics.heightPixels
 
-        showCustomDialog()
+        if (intent.extras == null) {
+            showCustomDialog()
+        }
+
         viewModel.inputDataBuilding.observe(this, Observer {
-            val measureHeight = it.heightCanvas.toDouble() / height.toDouble()
-            val measureWidth = it.widthCancas.toDouble() / width.toDouble()
-            fingerLineEdit.measureHeight = measureHeight / 100.0
-            fingerLineEdit.measureWidth = measureWidth / 100.0
+            val measureHeight = it.heightCanvas / height.toDouble()
+            val measureWidth = it.widthCanvas / width.toDouble()
+            fingerLineEdit.measureHeight = measureHeight
+            fingerLineEdit.measureWidth = measureWidth
             viscosity = it.viscosity.toDouble()
         })
 
         fingerLineEdit.addMeasurePipeline = {
-            InputUserDataDialog().show(it, supportFragmentManager) { data, isFinish ->
+            InputUserDataDialog().show(it, supportFragmentManager) { data, isFinish, lastSection ->
+                currentPressure =
+                    DataFinalSectionUtils.getFinalPressureSection(data, viscosity, currentPressure)
+                currentPressure /= 100
+                data.pressureFinal = currentPressure
+
                 if (isFinish) {
                     fingerLineEdit.initPipeline()
                     if (tempData == null) {
-                        currentPressure =
-                            DataFinalSectionUtils.getFinalPressureSection(data, viscosity, currentPressure)
-                        Log.d("dataTest", "Presion final del tramo.. $currentPressure")
                         listData.add(data)
-                        currentPressure = 15.0
                     } else {
                         tempData?.let { dataUser ->
                             dataUser.sum(data)
@@ -89,6 +90,9 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                         }
                     }
 
+                    if (lastSection) {
+                        ShowDataDialog().show(supportFragmentManager, listData)
+                    }
                 } else {
                     if (tempData == null) {
                         tempData = data
@@ -96,7 +100,13 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                         tempData?.sum(data)
                     }
                 }
+
+                fingerLineEdit.isEditable = true
             }
+        }
+
+        fabUndo.setOnClickListener {
+            fingerLineEdit.undoSection()
         }
     }
 
@@ -112,22 +122,15 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                 R.id.fabGas -> {
                     fingerLineEdit.setTypePipeline(TypePipeline.GAS)
                 }
+                R.id.fabSanitary -> {
+                    fingerLineEdit.setTypePipeline(TypePipeline.SANITARY)
+                }
                 R.id.fabSave -> {
                     containerImageEdit.getBitmapScreen(viewModel::saveProject)
                 }
             }
         }
         return false
-    }
-
-    override fun onProgressChanged(seekBar: DiscreteSeekBar?, value: Int, fromUser: Boolean) {
-        fingerLineEdit.setStrokePipeline(value)
-    }
-
-    override fun onStartTrackingTouch(seekBar: DiscreteSeekBar?) {
-    }
-
-    override fun onStopTrackingTouch(seekBar: DiscreteSeekBar?) {
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -147,6 +150,18 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
     }
 
     private fun showCustomDialog() {
-        viewModel.showDialogInputData(fragmentManager = supportFragmentManager)
+        viewModel.showDialogInputData(supportFragmentManager)
+    }
+
+    override fun onBackPressed() {
+        AlertDialog.Builder(this)
+            .setTitle("Cerrar proyecto")
+            .setMessage("deseas cerrar el proyecto?")
+            .setPositiveButton(android.R.string.yes) { _, _ ->
+                finish()
+            }
+            .setNegativeButton(android.R.string.no, null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
     }
 }

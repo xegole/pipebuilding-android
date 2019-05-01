@@ -27,10 +27,8 @@ import java.io.FileOutputStream
 
 class EditViewModel(application: Application) : AndroidViewModel(application) {
 
-    var buildingType = -1
-    var measureType = -1
-
     val inputDataBuilding = MutableLiveData<DataBuilding>()
+    var nameProject = ""
 
     fun goToGallery(activity: AppCompatActivity) {
         val intent = Intent(Intent.ACTION_PICK)
@@ -73,13 +71,21 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 R.drawable.ic_edit_gas
             ).setLabel(getString(R.string.fab_gas)).create()
         )
+
+        speedDialEdit.addActionItem(
+            SpeedDialActionItem.Builder(
+                R.id.fabSanitary,
+                R.drawable.ic_edit_sanitary
+            ).setLabel(getString(R.string.fab_sanitary)).create()
+        )
     }
 
     fun saveProject(saveImageBitmap: Bitmap) {
         try {
             val path = Environment.getExternalStorageDirectory().toString() + Constants.FOLDER_PROJECTS
             File(path).mkdir()
-            val file = File(path, "${System.currentTimeMillis()}.${Constants.IMAGE_EXTENSION}")
+            val name = if (nameProject.isEmpty()) "${System.currentTimeMillis()}" else nameProject
+            val file = File(path, "$name.${Constants.IMAGE_EXTENSION}")
             val outputStream = FileOutputStream(file)
             saveImageBitmap.compress(Bitmap.CompressFormat.PNG, Constants.QUALITY_IMAGE, outputStream)
             outputStream.flush()
@@ -107,6 +113,7 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
     fun showDialogInputData(fragmentManager: FragmentManager) {
         InputDataDialog().show(fragmentManager) {
             inputDataBuilding.value = it
+            nameProject = it.nameProject
         }
     }
 }

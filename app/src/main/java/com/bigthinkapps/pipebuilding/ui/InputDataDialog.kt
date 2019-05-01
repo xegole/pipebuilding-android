@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.bigthinkapps.pipebuilding.R
+import com.bigthinkapps.pipebuilding.extension.getData
+import com.bigthinkapps.pipebuilding.extension.getDouble
 import com.bigthinkapps.pipebuilding.extension.getInt
 import com.bigthinkapps.pipebuilding.model.DataBuilding
 import com.bigthinkapps.pipebuilding.util.Constants.FIRST_ITEM
@@ -53,6 +55,9 @@ class InputDataDialog : DialogFragment() {
                 dataBuilding.viscosity = list[position].viscosity
             }
         }
+
+        dialog?.setCancelable(false)
+        dialog?.setCanceledOnTouchOutside(false)
     }
 
     fun show(fragmentManager: FragmentManager, result: (DataBuilding) -> Unit) {
@@ -61,17 +66,17 @@ class InputDataDialog : DialogFragment() {
         if (fragment != null) {
             fragmentTransaction.remove(fragment)
         }
-        fragmentTransaction.addToBackStack(null)
+        fragmentManager.addOnBackStackChangedListener { }
         show(fragmentTransaction, TAG_DIALOG)
         this.result = result
     }
 
     private fun setData() {
         dataBuilding.floorsNumber = textFloorsNumber.getInt()
-        dataBuilding.heightFloor = textHeightFloor.getInt()
-
-        dataBuilding.heightCanvas = textHeight.getInt()
-        dataBuilding.widthCancas = textWidth.getInt()
+        dataBuilding.heightFloor = textHeightFloor.getDouble()
+        dataBuilding.nameProject = textNameProject.getData()
+        dataBuilding.heightCanvas = textHeight.getDouble()
+        dataBuilding.widthCanvas = textWidth.getDouble()
         result.invoke(dataBuilding)
         dismiss()
     }

@@ -2,19 +2,18 @@ package com.bigthinkapps.pipebuilding.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import com.bigthinkapps.pipebuilding.extension.ifNotNull
+import com.bigthinkapps.pipebuilding.model.SectionLine
 
 
 enum class TypePipeline(val resId: Int) {
     HYDRO(Color.BLUE),
-    GAS(Color.parseColor("#FF9933"));
+    GAS(Color.YELLOW),
+    SANITARY(Color.parseColor("#FF9933"));
 }
 
 class FingerLine : View {
@@ -35,6 +34,11 @@ class FingerLine : View {
     private lateinit var drawCanvasLines: Canvas
 
     lateinit var addMeasurePipeline: (Double) -> Unit
+
+    private var isUndo = false
+    var isEditable = true
+
+    private val sectionLineList = ArrayList<SectionLine>()
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs, 0) {
@@ -68,10 +72,15 @@ class FingerLine : View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        canvas.ifNotNull {
-            it.drawBitmap(canvasBitmapLines, 0f, 0f, paint)
-            it.drawBitmap(canvasBitmap, 0f, 0f, paint)
-            it.drawLine(startX, startY, endX, endY, paint)
+        canvas?.drawBitmap(canvasBitmapLines, 0f, 0f, paint)
+        canvas?.drawBitmap(canvasBitmap, 0f, 0f, paint)
+
+        if (isUndo) {
+            isUndo = false
+        } else {
+            if (isEditable && endX != 0.0f && endY != 0.0f) {
+                canvas?.drawLine(startX, startY, endX, endY, paint)
+            }
         }
     }
 
@@ -92,13 +101,31 @@ class FingerLine : View {
                 MotionEvent.ACTION_UP -> {
                     endX = event.x
                     endY = event.y
-                    drawCanvas.drawLine(startX, startY, endX, endY, paint)
+                    sectionLineList.add(SectionLine(startX, startY, endX, endY))
+                    drawSections()
+                    isEditable = false
                     addMeasurePipeline(getDistance())
                 }
             }
         }
         invalidate()
         return true
+    }
+
+    private fun drawSections() {
+        sectionLineList.forEach {
+            drawCanvas.drawLine(it.startX, it.startY, it.endX, it.endY, paint)
+        }
+    }
+
+    fun undoSection() {
+        if (sectionLineList.isNotEmpty()) {
+            sectionLineList.removeAt(sectionLineList.lastIndex)
+            drawCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+            isUndo = true
+            drawSections()
+            invalidate()
+        }
     }
 
     private fun getDistance(): Double {
@@ -112,7 +139,6 @@ class FingerLine : View {
         endY = 0.toFloat()
     }
 
-
     private fun drawVerticalLines(canvas: Canvas) {
         val widthCanvas = width / 15f
         for (i in 1 until widthCanvas.toInt()) {
@@ -122,7 +148,6 @@ class FingerLine : View {
     }
 
     private fun drawHorizontalLines(canvas: Canvas) {
-
         val heightCanvas = height / 15f
         for (i in 1 until heightCanvas.toInt()) {
             val partitionY = i / heightCanvas

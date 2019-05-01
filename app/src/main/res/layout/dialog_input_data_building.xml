@@ -6,6 +6,24 @@
     android:background="@android:color/white"
     android:padding="@dimen/global_padding_normal">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputNameProject"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Nombre Proyecto"
+        android:theme="@style/TextInputLayoutAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textNameProject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="20"
+            android:textColor="@color/colorPrimary" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/labelTypeBuilding"
@@ -16,7 +34,7 @@
         android:text="@string/hint_label_type_building"
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/inputNameProject" />
 
     <Spinner
         android:id="@+id/spinnerTypeBuilding"
@@ -62,7 +80,7 @@
             android:id="@+id/textHeightFloor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="10"
             android:textColor="@color/colorPrimary" />
 
@@ -104,9 +122,10 @@
         android:id="@+id/inputWidth"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:hint="Ancho plano"
         android:theme="@style/TextInputLayoutAppearance"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/labelWidth"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spinnerTemperature">
 
@@ -120,13 +139,24 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/labelWidth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="metros"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@id/inputWidth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inputWidth" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputHeight"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Alto plano"
         android:theme="@style/TextInputLayoutAppearance"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/labelHeight"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputWidth">
 
@@ -138,6 +168,18 @@
             android:maxLength="10"
             android:textColor="@color/colorPrimary" />
     </com.google.android.material.textfield.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/labelHeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="metros"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toBottomOf="@+id/inputHeight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/inputHeight" />
 
     <Button
         android:id="@+id/buttonAccept"

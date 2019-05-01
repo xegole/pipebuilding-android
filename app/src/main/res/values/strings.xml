@@ -1,10 +1,11 @@
 <resources>
-    <string name="app_name">PipeBuilding</string>
+    <string name="app_name">Danahonet</string>
 
     <string name="fab_save">Save</string>
     <string name="fab_gallery">Open gallery</string>
     <string name="fab_hydro">Hydro pipeline</string>
     <string name="fab_gas">Gas pipeline</string>
+    <string name="fab_sanitary">Sanitary pipeline</string>
 
     <string name="label_gallery">Gallery</string>
 

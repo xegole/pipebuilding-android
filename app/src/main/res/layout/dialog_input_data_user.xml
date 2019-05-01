@@ -64,7 +64,7 @@
             android:id="@+id/textLongitudeAccessories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="10"
             android:text="0"
             android:textColor="@color/colorPrimary" />
@@ -84,7 +84,7 @@
             android:id="@+id/textKs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="10"
             android:text="0"
             android:textColor="@color/colorPrimary" />
@@ -116,7 +116,7 @@
             android:id="@+id/textVerticalLongitude"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="10"
             android:text="0"
             android:textColor="@color/colorPrimary" />

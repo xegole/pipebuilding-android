@@ -16,6 +16,12 @@ class MainActivity : AppCompatActivity() {
         ViewModelProviders.of(this).get(MainViewModel::class.java)
     }
 
+    private val adapter by lazy {
+        GalleryAdapter(emptyList()) {
+            viewModel.loadGallery()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -27,11 +33,14 @@ class MainActivity : AppCompatActivity() {
         toolbarGallery.title = getString(R.string.label_gallery)
         setSupportActionBar(toolbarGallery)
         viewModel.listFiles.observe(this, Observer {
-            if (!it.isNullOrEmpty()) {
-                val adapter = GalleryAdapter(it)
-                recyclerViewFiles.adapter = adapter
+            if (it.isNullOrEmpty()) {
+                adapter.setData(emptyList())
+            } else {
+                adapter.setData(it)
             }
         })
+
+        recyclerViewFiles.adapter = adapter
     }
 
     override fun onResume() {

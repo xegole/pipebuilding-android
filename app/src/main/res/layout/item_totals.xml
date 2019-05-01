@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/global_padding_normal">
+
+    <TextView
+        android:id="@+id/labelSection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Tramo"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/labelDiameter"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Diametro"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/labelLongitude"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Longitud totales"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/labelLosses"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="Perdidas totales"
+        android:textColor="@android:color/black" />
+</LinearLayout>
