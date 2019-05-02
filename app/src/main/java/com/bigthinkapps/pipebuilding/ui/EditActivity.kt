@@ -3,6 +3,7 @@ package com.bigthinkapps.pipebuilding.ui
 import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -88,6 +89,10 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
         fabUndo.setOnClickListener {
             fingerLineEdit.undoSection()
         }
+
+        fabDownPipe.setOnClickListener {
+            fingerLineEdit.setDownPipe()
+        }
     }
 
     private fun showDialogGas(distance: Double) {
@@ -163,15 +168,18 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                     viewModel.goToGallery(this)
                 }
                 R.id.fabHydro -> {
+                    fabDownPipe.visibility = View.GONE
                     typePipeline = TypePipeline.HYDRO
                     fingerLineEdit.setTypePipeline(TypePipeline.HYDRO)
                 }
                 R.id.fabGas -> {
+                    fabDownPipe.visibility = View.GONE
                     typePipeline = TypePipeline.GAS
                     fingerLineEdit.setTypePipeline(TypePipeline.GAS)
                 }
                 R.id.fabSanitary -> {
                     typePipeline = TypePipeline.SANITARY
+                    fabDownPipe.visibility = View.VISIBLE
                     fingerLineEdit.setTypePipeline(TypePipeline.SANITARY)
                 }
                 R.id.fabSave -> {

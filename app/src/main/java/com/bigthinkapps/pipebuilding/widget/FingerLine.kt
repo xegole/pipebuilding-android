@@ -40,6 +40,8 @@ class FingerLine : View {
 
     private val sectionLineList = ArrayList<SectionLine>()
 
+    private var isDownPipe = false
+
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs, 0) {
         paint.style = Paint.Style.STROKE
@@ -95,16 +97,23 @@ class FingerLine : View {
                     endY = event.y
                 }
                 MotionEvent.ACTION_MOVE -> {
-                    endX = event.x
-                    endY = event.y
+                    if (!isDownPipe) {
+                        endX = event.x
+                        endY = event.y
+                    }
                 }
                 MotionEvent.ACTION_UP -> {
-                    endX = event.x
-                    endY = event.y
-                    sectionLineList.add(SectionLine(startX, startY, endX, endY, paint.color))
-                    drawSections()
-                    isEditable = false
-                    addMeasurePipeline(getDistance())
+                    if (isDownPipe) {
+                        drawCanvas.drawCircle(event.x, event.y, 10f, paint)
+                        isDownPipe = false
+                    } else {
+                        endX = event.x
+                        endY = event.y
+                        sectionLineList.add(SectionLine(startX, startY, endX, endY, paint.color))
+                        drawSections()
+                        isEditable = false
+                        addMeasurePipeline(getDistance())
+                    }
                 }
             }
         }
@@ -138,6 +147,10 @@ class FingerLine : View {
     fun initPipeline() {
         endX = 0.toFloat()
         endY = 0.toFloat()
+    }
+
+    fun setDownPipe() {
+        isDownPipe = true
     }
 
     private fun drawVerticalLines(canvas: Canvas) {
