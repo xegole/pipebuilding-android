@@ -1,5 +1,6 @@
 package com.bigthinkapps.pipebuilding.util
 
+import com.bigthinkapps.pipebuilding.model.DataGas
 import com.bigthinkapps.pipebuilding.model.DataUser
 import java.math.BigDecimal
 
@@ -42,5 +43,21 @@ object DataFinalSectionUtils {
             frictionCoefficient = fi
         }
         return frictionCoefficient
+    }
+
+    fun getFinalVelocity(dataGas: DataGas, pressure: Double, allLosses: Double): DataGas {
+        val diameterSI = dataGas.pipeLineGasDiameter.value1
+        val longitudeProm = dataGas.measurePipeline * 0.2
+        val longitudeTotal = longitudeProm + dataGas.measurePipeline
+        val sectionLosses =
+            (23200 * longitudeTotal * longitudeProm * Math.pow(dataGas.flow, 1.82)) * Math.pow(diameterSI, -4.82)
+        val pressureSection = pressure - sectionLosses
+        val totalLosses = sectionLosses + allLosses
+        val sectionVelocity =
+            254 * dataGas.flow * (0.7236 + Math.pow((20.8 - totalLosses) / 1000, -1.0)) * Math.pow(diameterSI, -2.0)
+        dataGas.sectionVelocity = sectionVelocity
+        dataGas.pressureSection = pressureSection
+        dataGas.allLosses = totalLosses
+        return dataGas
     }
 }

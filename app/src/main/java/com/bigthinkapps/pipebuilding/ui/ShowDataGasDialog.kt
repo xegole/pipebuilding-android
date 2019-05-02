@@ -8,16 +8,15 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.bigthinkapps.pipebuilding.R
 import com.bigthinkapps.pipebuilding.model.DataGas
-import com.bigthinkapps.pipebuilding.model.DataUser
-import com.bigthinkapps.pipebuilding.ui.adapter.TotalsAdapter
+import com.bigthinkapps.pipebuilding.ui.adapter.GasDataAdapter
 import com.bigthinkapps.pipebuilding.util.Constants.TAG_DIALOG
 import kotlinx.android.synthetic.main.dialog_show_data.*
 
 
-class ShowDataDialog : DialogFragment() {
+class ShowDataGasDialog : DialogFragment() {
 
     private val adapter by lazy {
-        TotalsAdapter(emptyList())
+        GasDataAdapter(emptyList())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +34,7 @@ class ShowDataDialog : DialogFragment() {
         recyclerTotals.adapter = adapter
     }
 
-    fun show(fragmentManager: FragmentManager, list: List<DataUser>) {
+    fun show(fragmentManager: FragmentManager, list: List<DataGas>) {
         val fragmentTransaction = fragmentManager.beginTransaction()
         val fragment = fragmentManager.findFragmentByTag(TAG_DIALOG)
         if (fragment != null) {

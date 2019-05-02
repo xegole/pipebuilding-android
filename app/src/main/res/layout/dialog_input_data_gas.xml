@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    android:padding="@dimen/global_padding_normal">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputFlow"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_margin_big"
+        android:hint="Caudal"
+        android:theme="@style/TextInputLayoutAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textFlow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLength="10"
+            android:textColor="@color/colorPrimary" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/labelTypeBuilding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_margin_big"
+        android:text="Diametro tuberia"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="@+id/inputFlow"
+        app:layout_constraintTop_toBottomOf="@id/inputFlow" />
+
+    <Spinner
+        android:id="@+id/spinnerDiameterPipeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/global_margin_normal"
+        android:layout_marginLeft="@dimen/global_margin_normal"
+        android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+        app:layout_constraintBottom_toBottomOf="@+id/labelTypeBuilding"
+        app:layout_constraintStart_toEndOf="@id/labelTypeBuilding"
+        app:layout_constraintTop_toTopOf="@+id/labelTypeBuilding" />
+
+
+    <TextView
+        android:id="@+id/labelMeasurePipeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_margin_big"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerDiameterPipeline"
+        tools:text="Test data" />
+
+    <CheckBox
+        android:id="@+id/checkLastRoute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_margin_big"
+        android:text="Es tramo final?"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelMeasurePipeline" />
+
+    <Button
+        android:id="@+id/buttonAccept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Continuar Tramo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buttonFinish"
+        app:layout_constraintTop_toBottomOf="@+id/checkLastRoute" />
+
+    <Button
+        android:id="@+id/buttonFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Terminar Tramo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonAccept"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkLastRoute" />
+</androidx.constraintlayout.widget.ConstraintLayout>

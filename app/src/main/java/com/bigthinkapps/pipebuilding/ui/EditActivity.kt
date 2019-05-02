@@ -12,6 +12,7 @@ import com.bigthinkapps.pipebuilding.extension.getBitmapScreen
 import com.bigthinkapps.pipebuilding.extension.ifNotNull
 import com.bigthinkapps.pipebuilding.extension.imageByData
 import com.bigthinkapps.pipebuilding.extension.setImageByFile
+import com.bigthinkapps.pipebuilding.model.DataGas
 import com.bigthinkapps.pipebuilding.model.DataUser
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_CODE_GALLERY
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_PERMISSION_GALLERY
@@ -32,9 +33,15 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
     }
 
     private val listData = ArrayList<DataUser>()
+    private val listDataGas = ArrayList<DataGas>()
+
     private var tempData: DataUser? = null
+    private var tempDataGas: DataGas? = null
     private var viscosity: Double = 0.0
     private var currentPressure = 15.0
+    private var currentPressureGas = 21.0
+    private var typePipeline = TypePipeline.HYDRO
+    private var allLosses = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,41 +79,80 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
         })
 
         fingerLineEdit.addMeasurePipeline = {
-            InputUserDataDialog().show(it, supportFragmentManager) { data, isFinish, lastSection ->
-                currentPressure =
-                    DataFinalSectionUtils.getFinalPressureSection(data, viscosity, currentPressure)
-                currentPressure /= 100
-                data.pressureFinal = currentPressure
-
-                if (isFinish) {
-                    fingerLineEdit.initPipeline()
-                    if (tempData == null) {
-                        listData.add(data)
-                    } else {
-                        tempData?.let { dataUser ->
-                            dataUser.sum(data)
-                            listData.add(dataUser)
-                            tempData = null
-                        }
-                    }
-
-                    if (lastSection) {
-                        ShowDataDialog().show(supportFragmentManager, listData)
-                    }
-                } else {
-                    if (tempData == null) {
-                        tempData = data
-                    } else {
-                        tempData?.sum(data)
-                    }
-                }
-
-                fingerLineEdit.isEditable = true
+            when (typePipeline) {
+                TypePipeline.GAS -> showDialogGas(it)
+                else -> showDialogHydro(it)
             }
         }
 
         fabUndo.setOnClickListener {
             fingerLineEdit.undoSection()
+        }
+    }
+
+    private fun showDialogGas(distance: Double) {
+        InputDataGasDialog().show(distance, supportFragmentManager) { dataGas, isFinish, lastSection ->
+            val data = DataFinalSectionUtils.getFinalVelocity(dataGas, currentPressureGas, allLosses)
+            allLosses = data.allLosses
+
+            if (isFinish) {
+                fingerLineEdit.initPipeline()
+
+                if (tempDataGas == null) {
+                    listDataGas.add(data)
+                } else {
+                    tempDataGas?.let { item ->
+                        item.sum(data)
+                        listDataGas.add(item)
+                        tempData = null
+                    }
+                }
+
+                if (lastSection) {
+                    ShowDataGasDialog().show(supportFragmentManager, listDataGas)
+                }
+            } else {
+                if (tempDataGas == null) {
+                    tempDataGas = data
+                } else {
+                    tempDataGas?.sum(data)
+                }
+            }
+            fingerLineEdit.isEditable = true
+        }
+    }
+
+    private fun showDialogHydro(distance: Double) {
+        InputUserDataDialog().show(distance, supportFragmentManager) { data, isFinish, lastSection ->
+            currentPressure =
+                DataFinalSectionUtils.getFinalPressureSection(data, viscosity, currentPressure)
+            currentPressure /= 100
+            data.pressureFinal = currentPressure
+
+            if (isFinish) {
+                fingerLineEdit.initPipeline()
+                if (tempData == null) {
+                    listData.add(data)
+                } else {
+                    tempData?.let { dataUser ->
+                        dataUser.sum(data)
+                        listData.add(dataUser)
+                        tempData = null
+                    }
+                }
+
+                if (lastSection) {
+                    ShowDataDialog().show(supportFragmentManager, listData)
+                }
+            } else {
+                if (tempData == null) {
+                    tempData = data
+                } else {
+                    tempData?.sum(data)
+                }
+            }
+
+            fingerLineEdit.isEditable = true
         }
     }
 
@@ -117,12 +163,15 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                     viewModel.goToGallery(this)
                 }
                 R.id.fabHydro -> {
+                    typePipeline = TypePipeline.HYDRO
                     fingerLineEdit.setTypePipeline(TypePipeline.HYDRO)
                 }
                 R.id.fabGas -> {
+                    typePipeline = TypePipeline.GAS
                     fingerLineEdit.setTypePipeline(TypePipeline.GAS)
                 }
                 R.id.fabSanitary -> {
+                    typePipeline = TypePipeline.SANITARY
                     fingerLineEdit.setTypePipeline(TypePipeline.SANITARY)
                 }
                 R.id.fabSave -> {
