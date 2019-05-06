@@ -82,6 +82,7 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
         fingerLineEdit.addMeasurePipeline = {
             when (typePipeline) {
                 TypePipeline.GAS -> showDialogGas(it)
+                TypePipeline.SANITARY -> showDialogSanitary(it)
                 else -> showDialogHydro(it)
             }
         }
@@ -92,6 +93,13 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
 
         fabDownPipe.setOnClickListener {
             fingerLineEdit.setDownPipe()
+        }
+    }
+
+    private fun showDialogSanitary(distance: Double) {
+        InputDataSanitaryDialog().show(distance, supportFragmentManager) { dataSanitary, isFinish, lastSection ->
+
+            fingerLineEdit.isEditable = true
         }
     }
 

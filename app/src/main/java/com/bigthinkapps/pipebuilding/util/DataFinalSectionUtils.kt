@@ -1,6 +1,7 @@
 package com.bigthinkapps.pipebuilding.util
 
 import com.bigthinkapps.pipebuilding.model.DataGas
+import com.bigthinkapps.pipebuilding.model.DataSanitary
 import com.bigthinkapps.pipebuilding.model.DataUser
 import java.math.BigDecimal
 
@@ -59,5 +60,12 @@ object DataFinalSectionUtils {
         dataGas.pressureSection = pressureSection
         dataGas.allLosses = totalLosses
         return dataGas
+    }
+
+    fun getFlowQo(dataSanitary: DataSanitary): Double {
+        val valueDataPipeline = dataSanitary.pipeLineSanitaryDiameter
+        val flow = 0.0004 * Math.pow(dataSanitary.unitsHunter.toDouble(), 0.5196)
+        val flowQo = (valueDataPipeline.value * Math.sqrt(dataSanitary.pending / 100.0)) / 1000
+        return flow / flowQo
     }
 }

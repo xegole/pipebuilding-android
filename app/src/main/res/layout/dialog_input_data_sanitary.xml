@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    android:padding="@dimen/global_padding_normal">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputHunterUnits"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_margin_big"
+        android:hint="@string/hint_label_hunter_units"
+        android:theme="@style/TextInputLayoutAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textHunterUnits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="10"
+            android:text="0"
+            android:textColor="@color/colorPrimary" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/labelTypeBuilding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_margin_big"
+        android:text="Diametro tuberia"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="@+id/inputHunterUnits"
+        app:layout_constraintTop_toBottomOf="@id/inputHunterUnits" />
+
+    <Spinner
+        android:id="@+id/spinnerDiameterPipeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/global_margin_normal"
+        android:theme="@android:style/Theme.Holo.Light.DarkActionBar"
+        app:layout_constraintBottom_toBottomOf="@+id/labelTypeBuilding"
+        app:layout_constraintStart_toEndOf="@id/labelTypeBuilding"
+        app:layout_constraintTop_toTopOf="@+id/labelTypeBuilding" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputKs"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Ingrese pendiente %"
+        android:theme="@style/TextInputLayoutAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spinnerDiameterPipeline">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textKs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:maxLength="10"
+            android:text="0"
+            android:textColor="@color/colorPrimary" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/labelMeasurePipeline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_margin_big"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputKs"
+        tools:text="Test data" />
+
+    <CheckBox
+        android:id="@+id/checkLastRoute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/global_margin_big"
+        android:text="Es tramo final?"
+        android:textColor="@android:color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelMeasurePipeline" />
+
+    <Button
+        android:id="@+id/buttonFlowPipe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Obtener Q/Qo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkLastRoute" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/containerFlowPipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/buttonFlowPipe">
+
+        <TextView
+            android:id="@+id/labelTitleFlow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/global_margin_normal"
+            android:text="Q/Qo:"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/labelBaseFlow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/global_margin_normal"
+            android:text="0.0"
+            android:textColor="@android:color/black"
+            app:layout_constraintBottom_toBottomOf="@id/labelTitleFlow"
+            app:layout_constraintStart_toEndOf="@id/labelTitleFlow"
+            app:layout_constraintTop_toTopOf="@id/labelTitleFlow" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputYφo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/global_margin_big"
+            android:layout_weight="1"
+            android:hint="Y/φo"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:layout_constraintEnd_toStartOf="@id/inputVVo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/labelTitleFlow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textYφo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:maxLength="10"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputVVo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/global_margin_big"
+            android:layout_weight="1"
+            android:hint="V/Vo"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/inputYφo"
+            app:layout_constraintTop_toBottomOf="@id/labelTitleFlow">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textVVo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:maxLength="10"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputDφo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/global_margin_big"
+            android:hint="D/φo"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:layout_constraintEnd_toStartOf="@id/inputAAo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inputYφo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textDφo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:maxLength="10"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputAAo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/global_margin_big"
+            android:hint="A/Ao"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/inputDφo"
+            app:layout_constraintTop_toBottomOf="@id/inputYφo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textAAo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:maxLength="10"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputTTo"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/global_margin_big"
+            android:hint="t/To"
+            android:theme="@style/TextInputLayoutAppearance"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inputDφo">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textTTo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:maxLength="10"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <Button
+        android:id="@+id/buttonAccept"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Continuar Tramo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/buttonFinish"
+        app:layout_constraintTop_toBottomOf="@+id/containerFlowPipe" />
+
+    <Button
+        android:id="@+id/buttonFinish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Terminar Tramo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/buttonAccept"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/containerFlowPipe" />
+</androidx.constraintlayout.widget.ConstraintLayout>

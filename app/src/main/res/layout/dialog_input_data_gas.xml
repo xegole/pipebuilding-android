@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@android:color/darker_gray"
     android:padding="@dimen/global_padding_normal">
 
@@ -72,13 +72,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelMeasurePipeline" />
 
+
     <Button
         android:id="@+id/buttonAccept"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Continuar Tramo"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/buttonFinish"
         app:layout_constraintTop_toBottomOf="@+id/checkLastRoute" />
@@ -89,7 +89,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Terminar Tramo"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/buttonAccept"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkLastRoute" />
