@@ -1,17 +1,23 @@
 package com.bigthinkapps.pipebuilding.ui
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.bigthinkapps.pipebuilding.BuildConfig
 import com.bigthinkapps.pipebuilding.R
 import com.bigthinkapps.pipebuilding.extension.*
 import com.bigthinkapps.pipebuilding.model.DataGas
@@ -31,7 +37,10 @@ import com.itextpdf.text.pdf.PdfWriter
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import kotlinx.android.synthetic.main.activity_edit.*
-import java.io.*
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
 class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener {
@@ -62,14 +71,13 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
     private val myColor = WebColors.getRGBColor("#9E9E9E")
     private val myColor1 = WebColors.getRGBColor("#757575")
 
-    @Throws(FileNotFoundException::class, DocumentException::class)
-    fun createPDF(list: ArrayList<DataSanitary>) {
-        //create document file
+    private fun createPDF(list: ArrayList<DataSanitary>) {
         val doc = Document()
         try {
-            val pathname = Environment.getExternalStorageDirectory().path + "/mypdf/"
+            val pathname = Environment.getExternalStorageDirectory().path + "/danahonet/"
             val dir = File(pathname)
-            val file = File(dir, "TrinityPDF.pdf")
+            dir.mkdir()
+            val file = File(dir, "sanitary.pdf")
             val fOut = FileOutputStream(file)
             PdfWriter.getInstance(doc, fOut)
 
@@ -165,7 +173,7 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
 
                 table.addCell(cell)
                 doc.add(table)
-                Toast.makeText(applicationContext, "created PDF", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, "PDF creado", Toast.LENGTH_LONG).show()
             } catch (de: DocumentException) {
                 de.printStackTrace()
             } catch (e: IOException) {
@@ -173,8 +181,30 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
             } finally {
                 doc.close()
             }
+
+            Handler().postDelayed({
+                openPdf(file)
+            }, 1000)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    private fun openPdf(file: File) {
+        val excelPath = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".provider", file)
+        } else {
+            Uri.fromFile(file)
+        }
+        val pdfIntent = Intent(Intent.ACTION_VIEW)
+        pdfIntent.setDataAndType(excelPath, "application/pdf")
+        pdfIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        pdfIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        pdfIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        try {
+            startActivity(pdfIntent)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, "No hay apliacion para ver el PDF", Toast.LENGTH_SHORT).show()
         }
     }
 
