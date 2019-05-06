@@ -1,19 +1,21 @@
 package com.bigthinkapps.pipebuilding.ui
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.os.Environment
 import android.util.DisplayMetrics
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bigthinkapps.pipebuilding.R
-import com.bigthinkapps.pipebuilding.extension.getBitmapScreen
-import com.bigthinkapps.pipebuilding.extension.ifNotNull
-import com.bigthinkapps.pipebuilding.extension.imageByData
-import com.bigthinkapps.pipebuilding.extension.setImageByFile
+import com.bigthinkapps.pipebuilding.extension.*
 import com.bigthinkapps.pipebuilding.model.DataGas
+import com.bigthinkapps.pipebuilding.model.DataSanitary
 import com.bigthinkapps.pipebuilding.model.DataUser
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_CODE_GALLERY
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_PERMISSION_GALLERY
@@ -21,10 +23,15 @@ import com.bigthinkapps.pipebuilding.util.DataFinalSectionUtils
 import com.bigthinkapps.pipebuilding.util.ExtrasContants
 import com.bigthinkapps.pipebuilding.viewmodel.EditViewModel
 import com.bigthinkapps.pipebuilding.widget.TypePipeline
+import com.itextpdf.text.*
+import com.itextpdf.text.html.WebColors
+import com.itextpdf.text.pdf.PdfPCell
+import com.itextpdf.text.pdf.PdfPTable
+import com.itextpdf.text.pdf.PdfWriter
 import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import kotlinx.android.synthetic.main.activity_edit.*
-import java.io.File
+import java.io.*
 
 
 class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener {
@@ -35,6 +42,7 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
 
     private val listData = ArrayList<DataUser>()
     private val listDataGas = ArrayList<DataGas>()
+    private val listDataSanitary = ArrayList<DataSanitary>()
 
     private var tempData: DataUser? = null
     private var tempDataGas: DataGas? = null
@@ -49,6 +57,125 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
         setContentView(R.layout.activity_edit)
         viewModel.validatePermissions(this)
         initUI()
+    }
+
+    private val myColor = WebColors.getRGBColor("#9E9E9E")
+    private val myColor1 = WebColors.getRGBColor("#757575")
+
+    @Throws(FileNotFoundException::class, DocumentException::class)
+    fun createPDF(list: ArrayList<DataSanitary>) {
+        //create document file
+        val doc = Document()
+        try {
+            val pathname = Environment.getExternalStorageDirectory().path + "/mypdf/"
+            val dir = File(pathname)
+            val file = File(dir, "TrinityPDF.pdf")
+            val fOut = FileOutputStream(file)
+            PdfWriter.getInstance(doc, fOut)
+
+            //open the document
+            doc.open()
+            //create table
+            val pt = PdfPTable(3)
+            pt.widthPercentage = 100f
+            val fl = floatArrayOf(20f, 45f, 35f)
+            pt.setWidths(fl)
+            var cell = PdfPCell()
+            cell.border = Rectangle.NO_BORDER
+
+            //set drawable in cell
+            val myImage = resources.getDrawable(R.mipmap.ic_launcher)
+            val bitmap = (myImage as BitmapDrawable).bitmap
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val bitmapData = stream.toByteArray()
+            try {
+                val bgImage = Image.getInstance(bitmapData)
+                bgImage.setAbsolutePosition(330f, 642f)
+                cell.addElement(bgImage)
+                pt.addCell(cell)
+                cell = PdfPCell()
+                cell.border = Rectangle.NO_BORDER
+                cell.addElement(Paragraph("Danahonet"))
+                pt.addCell(cell)
+                cell = PdfPCell(Paragraph(""))
+                cell.border = Rectangle.NO_BORDER
+                pt.addCell(cell)
+
+                val pTable = PdfPTable(1)
+                pTable.widthPercentage = 100f
+                cell = PdfPCell()
+                cell.colspan = 1
+                cell.addElement(pt)
+                pTable.addCell(cell)
+                val table = PdfPTable(7)
+
+                val columnWidth = floatArrayOf(15f, 10f, 10f, 10f, 10f, 10f, 10f)
+                table.setWidths(columnWidth)
+
+
+                cell = PdfPCell()
+                cell.backgroundColor = myColor
+                cell.colspan = 7
+                cell.addElement(pTable)
+                table.addCell(cell)
+                cell = PdfPCell(Phrase(" "))
+                cell.colspan = 7
+                table.addCell(cell)
+                cell = PdfPCell()
+                cell.colspan = 7
+
+                cell.backgroundColor = myColor1
+
+                cell = PdfPCell(Phrase("Tramo"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Qd"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Yd"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Vd"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Dd"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Ad"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Td"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+
+                cell = PdfPCell()
+                cell.colspan = 7
+
+                list.forEach {
+                    val dataManifold = it.dataManifold
+                    table.addCell("1-2")
+                    table.addCell(dataManifold?.qd?.digits(3))
+                    table.addCell(dataManifold?.yd?.digits(3))
+                    table.addCell(dataManifold?.vd?.digits(3))
+                    table.addCell(dataManifold?.dd?.digits(3))
+                    table.addCell(dataManifold?.ad?.digits(3))
+                    table.addCell(dataManifold?.td?.digits(3))
+                }
+
+                table.addCell(cell)
+                doc.add(table)
+                Toast.makeText(applicationContext, "created PDF", Toast.LENGTH_LONG).show()
+            } catch (de: DocumentException) {
+                de.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } finally {
+                doc.close()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun initUI() {
@@ -98,7 +225,10 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
 
     private fun showDialogSanitary(distance: Double) {
         InputDataSanitaryDialog().show(distance, supportFragmentManager) { dataSanitary, isFinish, lastSection ->
-
+            listDataSanitary.add(dataSanitary)
+            if (lastSection) {
+                createPDF(listDataSanitary)
+            }
             fingerLineEdit.isEditable = true
         }
     }

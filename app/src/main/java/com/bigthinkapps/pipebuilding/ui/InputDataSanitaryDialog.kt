@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentManager
 import com.bigthinkapps.pipebuilding.AppCore
 import com.bigthinkapps.pipebuilding.R
 import com.bigthinkapps.pipebuilding.extension.digits
+import com.bigthinkapps.pipebuilding.extension.getDouble
 import com.bigthinkapps.pipebuilding.extension.getInt
 import com.bigthinkapps.pipebuilding.model.DataSanitary
 import com.bigthinkapps.pipebuilding.util.Constants
@@ -75,6 +76,15 @@ class InputDataSanitaryDialog : DialogFragment() {
     }
 
     private fun setData(isFinish: Boolean) {
+        val dataManifold = DataFinalSectionUtils.getDataSanitary(
+            dataSanitary,
+            textYφo.getDouble(),
+            textVVo.getDouble(),
+            textDφo.getDouble(),
+            textAAo.getDouble(),
+            textTTo.getDouble()
+        )
+        dataSanitary.dataManifold = dataManifold
         result.invoke(dataSanitary, isFinish, checkLastRoute.isChecked)
         dismiss()
     }

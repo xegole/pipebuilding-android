@@ -1,6 +1,7 @@
 package com.bigthinkapps.pipebuilding.util
 
 import com.bigthinkapps.pipebuilding.model.DataGas
+import com.bigthinkapps.pipebuilding.model.DataManifold
 import com.bigthinkapps.pipebuilding.model.DataSanitary
 import com.bigthinkapps.pipebuilding.model.DataUser
 import java.math.BigDecimal
@@ -67,5 +68,21 @@ object DataFinalSectionUtils {
         val flow = 0.0004 * Math.pow(dataSanitary.unitsHunter.toDouble(), 0.5196)
         val flowQo = (valueDataPipeline.value * Math.sqrt(dataSanitary.pending / 100.0)) / 1000
         return flow / flowQo
+    }
+
+    fun getDataSanitary(dataSanitary: DataSanitary, yφo: Double, vVo: Double, dφo: Double, aAo: Double, tTo: Double):
+            DataManifold {
+        val valueDataPipeline = dataSanitary.pipeLineSanitaryDiameter
+        val flow = 0.0004 * Math.pow(dataSanitary.unitsHunter.toDouble(), 0.5196)
+        val flowQo = (valueDataPipeline.value * Math.sqrt(dataSanitary.pending / 100.0)) / 1000
+        val velocityVo = valueDataPipeline.velocityValue * Math.sqrt(dataSanitary.pending / 100.0)
+        val forceT = 250 * valueDataPipeline.diameter * (dataSanitary.pending / 100.0)
+        val qd = (flow / flowQo) * flowQo
+        val yd = yφo * valueDataPipeline.diameter
+        val vd = vVo * velocityVo
+        val dd = dφo * valueDataPipeline.diameter
+        val ad = aAo * ((PI * Math.pow(valueDataPipeline.diameter, 2.0)) / 4)
+        val td = tTo * forceT
+        return DataManifold(qd, yd, vd, dd, ad, td)
     }
 }

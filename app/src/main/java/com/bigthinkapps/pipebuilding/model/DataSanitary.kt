@@ -7,6 +7,7 @@ class DataSanitary {
     var measurePipeline = 0.0
     var unitsHunter = 0
     var pending = 0
+    var dataManifold: DataManifold? = null
 
     fun sum(dataUser: DataSanitary) {
         measurePipeline += dataUser.measurePipeline
