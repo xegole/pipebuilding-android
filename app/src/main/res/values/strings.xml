@@ -6,6 +6,7 @@
     <string name="fab_hydro">Hydro pipeline</string>
     <string name="fab_gas">Gas pipeline</string>
     <string name="fab_sanitary">Sanitary pipeline</string>
+    <string name="fab_rci">RCI</string>
 
     <string name="label_gallery">Gallery</string>
 

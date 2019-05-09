@@ -215,6 +215,9 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                 R.id.fabSave -> {
                     containerImageEdit.getBitmapScreen(viewModel::saveProject)
                 }
+                R.id.fabRci -> InputDataRCIDialog().show(supportFragmentManager) { data, isFinish ->
+
+                }
             }
         }
         return false

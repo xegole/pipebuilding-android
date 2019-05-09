@@ -97,6 +97,13 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 R.drawable.ic_edit_sanitary
             ).setLabel(getString(R.string.fab_sanitary)).create()
         )
+
+        speedDialEdit.addActionItem(
+            SpeedDialActionItem.Builder(
+                R.id.fabRci,
+                R.drawable.ic_rci
+            ).setLabel(getString(R.string.fab_rci)).create()
+        )
     }
 
     fun saveProject(saveImageBitmap: Bitmap) {

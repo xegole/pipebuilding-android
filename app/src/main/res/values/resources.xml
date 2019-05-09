@@ -5,4 +5,5 @@
     <item name="fabHydro" type="id" />
     <item name="fabGas" type="id" />
     <item name="fabSanitary" type="id" />
+    <item name="fabRci" type="id" />
 </resources>

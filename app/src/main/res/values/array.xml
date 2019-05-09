@@ -22,6 +22,11 @@
         <item>12\"</item>
     </string-array>
 
+    <string-array name="type_sub_group">
+        <item>R-1</item>
+        <item>R-2</item>
+    </string-array>
+
     <string-array name="measure_type">
         <item>cm</item>
         <item>m</item>
