@@ -13,7 +13,8 @@ import com.bigthinkapps.pipebuilding.model.SectionLine
 enum class TypePipeline(val resId: Int) {
     HYDRO(Color.BLUE),
     GAS(Color.parseColor("#FF9933")),
-    SANITARY(Color.YELLOW);
+    SANITARY(Color.YELLOW),
+    DOWN_PIPE(Color.YELLOW);
 }
 
 class FingerLine : View {
@@ -105,15 +106,14 @@ class FingerLine : View {
                 MotionEvent.ACTION_UP -> {
                     if (isDownPipe) {
                         drawCanvas.drawCircle(event.x, event.y, 10f, paint)
-                        isDownPipe = false
                     } else {
                         endX = event.x
                         endY = event.y
                         sectionLineList.add(SectionLine(startX, startY, endX, endY, paint.color))
                         drawSections()
-                        isEditable = false
-                        addMeasurePipeline(getDistance())
                     }
+                    isEditable = false
+                    addMeasurePipeline(getDistance())
                 }
             }
         }
@@ -149,8 +149,8 @@ class FingerLine : View {
         endY = 0.toFloat()
     }
 
-    fun setDownPipe() {
-        isDownPipe = true
+    fun setDownPipe(isDownPipe: Boolean) {
+        this.isDownPipe = isDownPipe
     }
 
     private fun drawVerticalLines(canvas: Canvas) {

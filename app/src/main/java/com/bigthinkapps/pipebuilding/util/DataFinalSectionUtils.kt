@@ -85,4 +85,8 @@ object DataFinalSectionUtils {
         val td = tTo * forceT
         return DataManifold(qd, yd, vd, dd, ad, td)
     }
+
+    fun getFlowDownPipe(unitHunter: Int): Double {
+        return 0.0004 * Math.pow(unitHunter.toDouble(), 0.5196)
+    }
 }
