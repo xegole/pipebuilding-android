@@ -76,4 +76,40 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/speedDialEdit" />
 
+    <CheckBox
+        android:id="@+id/checkHydro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:buttonTint="@color/colorAccent"
+        android:text="Hidraulicas"
+        android:checked="true"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/checkGas"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkGas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:buttonTint="@color/colorAccent"
+        android:text="Gas"
+        android:checked="true"
+        android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/checkSanitary"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/checkSanitary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Sanitarias"
+        android:checked="true"
+        android:textColor="@android:color/black"
+        app:buttonTint="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

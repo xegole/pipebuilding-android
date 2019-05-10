@@ -25,6 +25,11 @@ class FingerLine : View {
     private var startY: Float = 0.toFloat()
     private var endX: Float = 0.toFloat()
     private var endY: Float = 0.toFloat()
+    private var typePipeline = TypePipeline.HYDRO
+
+    var editHydro = true
+    var editGas = true
+    var editSanitary = true
 
     var measureHeight = 0.0
     var measureWidth = 0.0
@@ -67,6 +72,7 @@ class FingerLine : View {
 
     fun setTypePipeline(typePipeline: TypePipeline) {
         paint.color = typePipeline.resId
+        this.typePipeline = typePipeline
     }
 
     fun setStrokePipeline(stroke: Int) {
@@ -109,8 +115,8 @@ class FingerLine : View {
                     } else {
                         endX = event.x
                         endY = event.y
-                        sectionLineList.add(SectionLine(startX, startY, endX, endY, paint.color))
-                        drawSections()
+                        sectionLineList.add(SectionLine(startX, startY, endX, endY, paint.color, typePipeline))
+                        drawSectionsByFilter()
                     }
                     isEditable = false
                     addMeasurePipeline(getDistance())
@@ -126,6 +132,35 @@ class FingerLine : View {
             paint.color = it.color
             drawCanvas.drawLine(it.startX, it.startY, it.endX, it.endY, paint)
         }
+    }
+
+    fun drawSectionsByFilter() {
+        val currentColor = paint.color
+        drawCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+        sectionLineList.forEach {
+            paint.color = it.color
+            when (it.typePipeline) {
+                TypePipeline.HYDRO -> {
+                    if (editHydro) {
+                        drawCanvas.drawLine(it.startX, it.startY, it.endX, it.endY, paint)
+                    }
+                }
+                TypePipeline.SANITARY -> {
+                    if (editSanitary) {
+                        drawCanvas.drawLine(it.startX, it.startY, it.endX, it.endY, paint)
+                    }
+                }
+                TypePipeline.GAS -> {
+                    if (editGas) {
+                        drawCanvas.drawLine(it.startX, it.startY, it.endX, it.endY, paint)
+                    }
+                }
+                else -> drawCanvas.drawLine(it.startX, it.startY, it.endX, it.endY, paint)
+            }
+        }
+
+        paint.color = currentColor
+        invalidate()
     }
 
     fun undoSection() {

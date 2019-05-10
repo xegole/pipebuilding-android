@@ -102,6 +102,21 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
             typePipeline = TypePipeline.DOWN_PIPE
             fingerLineEdit.setDownPipe(true)
         }
+
+        checkHydro.setOnCheckedChangeListener { _, isChecked ->
+            fingerLineEdit.editHydro = isChecked
+            fingerLineEdit.drawSectionsByFilter()
+        }
+
+        checkGas.setOnCheckedChangeListener { _, isChecked ->
+            fingerLineEdit.editGas = isChecked
+            fingerLineEdit.drawSectionsByFilter()
+        }
+
+        checkSanitary.setOnCheckedChangeListener { _, isChecked ->
+            fingerLineEdit.editSanitary = isChecked
+            fingerLineEdit.drawSectionsByFilter()
+        }
     }
 
     private fun showDialogSanitary(distance: Double) {
@@ -110,6 +125,11 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
             if (lastSection) {
                 viewModel.createPDF(listDataSanitary, resources)
             }
+
+            if (isFinish) {
+                fingerLineEdit.initPipeline()
+            }
+
             fingerLineEdit.isEditable = true
         }
     }
@@ -119,8 +139,6 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
             dataDownPipe.flow = DataFinalSectionUtils.getFlowDownPipe(dataDownPipe.unitsHunter)
             if (isFinish && lastSection) {
                 viewModel.createPdfDownPipe(dataDownPipe, resources)
-                typePipeline = TypePipeline.SANITARY
-                fingerLineEdit.setDownPipe(false)
             }
         }
     }
@@ -198,16 +216,22 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                     viewModel.goToGallery(this)
                 }
                 R.id.fabHydro -> {
+                    fingerLineEdit.setDownPipe(false)
+                    fingerLineEdit.initPipeline()
                     fabDownPipe.visibility = View.GONE
                     typePipeline = TypePipeline.HYDRO
                     fingerLineEdit.setTypePipeline(TypePipeline.HYDRO)
                 }
                 R.id.fabGas -> {
+                    fingerLineEdit.setDownPipe(false)
+                    fingerLineEdit.initPipeline()
                     fabDownPipe.visibility = View.GONE
                     typePipeline = TypePipeline.GAS
                     fingerLineEdit.setTypePipeline(TypePipeline.GAS)
                 }
                 R.id.fabSanitary -> {
+                    fingerLineEdit.setDownPipe(false)
+                    fingerLineEdit.initPipeline()
                     typePipeline = TypePipeline.SANITARY
                     fabDownPipe.visibility = View.VISIBLE
                     fingerLineEdit.setTypePipeline(TypePipeline.SANITARY)
