@@ -65,6 +65,9 @@ object DataFinalSectionUtils {
         dataGas.sectionVelocity = sectionVelocity
         dataGas.pressureSection = pressureSection
         dataGas.allLosses = totalLosses
+        dataGas.pressureInitial = pressure
+        dataGas.measureTotal = longitudeTotal
+        dataGas.sectionLosses = sectionLosses
         return dataGas
     }
 

@@ -162,7 +162,7 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                 }
 
                 if (lastSection) {
-                    ShowDataGasDialog().show(supportFragmentManager, listDataGas)
+                    viewModel.createPDFGas(listDataGas, resources)
                 }
             } else {
                 if (tempDataGas == null) {

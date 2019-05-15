@@ -24,10 +24,7 @@ import com.bigthinkapps.pipebuilding.extension.checkPermissions
 import com.bigthinkapps.pipebuilding.extension.digits
 import com.bigthinkapps.pipebuilding.extension.getString
 import com.bigthinkapps.pipebuilding.extension.twoDigits
-import com.bigthinkapps.pipebuilding.model.DataBuilding
-import com.bigthinkapps.pipebuilding.model.DataDownPipe
-import com.bigthinkapps.pipebuilding.model.DataSanitary
-import com.bigthinkapps.pipebuilding.model.DataUser
+import com.bigthinkapps.pipebuilding.model.*
 import com.bigthinkapps.pipebuilding.ui.InputDataDialog
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_CODE_GALLERY
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_PERMISSION_GALLERY
@@ -372,6 +369,129 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                     table.addCell(it.measureTotal().twoDigits())
                     table.addCell(it.totalLosses.twoDigits())
                     table.addCell(it.pressureFinal.twoDigits())
+                }
+                table.addCell(cell)
+                doc.add(table)
+            } catch (de: DocumentException) {
+                de.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } finally {
+                doc.close()
+            }
+            Handler().postDelayed({
+                openPdf(file)
+            }, 1000)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
+    fun createPDFGas(list: ArrayList<DataGas>, resources: Resources) {
+        val doc = Document()
+        try {
+            val pathname = Environment.getExternalStorageDirectory().path + "/danahonet/"
+            val dir = File(pathname)
+            dir.mkdir()
+            val file = File(dir, "gas.pdf")
+            val fOut = FileOutputStream(file)
+            PdfWriter.getInstance(doc, fOut)
+
+            //open the document
+            doc.open()
+            //create table
+            val pt = PdfPTable(3)
+            pt.widthPercentage = 100f
+            val fl = floatArrayOf(20f, 45f, 35f)
+            pt.setWidths(fl)
+            var cell = PdfPCell()
+            cell.border = Rectangle.NO_BORDER
+
+            //set drawable in cell
+            val myImage = resources.getDrawable(R.mipmap.ic_launcher)
+            val bitmap = (myImage as BitmapDrawable).bitmap
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val bitmapData = stream.toByteArray()
+            try {
+                val bgImage = Image.getInstance(bitmapData)
+                bgImage.setAbsolutePosition(330f, 642f)
+                cell.addElement(bgImage)
+                pt.addCell(cell)
+                cell = PdfPCell()
+                cell.border = Rectangle.NO_BORDER
+                cell.addElement(Paragraph("Danahonet"))
+                pt.addCell(cell)
+                cell = PdfPCell(Paragraph(""))
+                cell.border = Rectangle.NO_BORDER
+                pt.addCell(cell)
+
+                val pTable = PdfPTable(1)
+                pTable.widthPercentage = 100f
+                cell = PdfPCell()
+                cell.colspan = 1
+                cell.addElement(pt)
+                pTable.addCell(cell)
+                val table = PdfPTable(9)
+                val columnWidth = floatArrayOf(9.4f, 10f, 11.5f, 8.0f, 9.4f, 15.5f, 11f, 11f, 13.5f)
+                table.setWidths(columnWidth)
+
+
+                cell = PdfPCell()
+                cell.backgroundColor = myColor
+                cell.colspan = 9
+                cell.addElement(pTable)
+                table.addCell(cell)
+                cell = PdfPCell(Phrase(" "))
+                cell.colspan = 9
+                table.addCell(cell)
+                cell = PdfPCell()
+                cell.colspan = 9
+
+                cell.backgroundColor = myColor1
+
+                cell = PdfPCell(Phrase("Tramo"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Caudal"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Nominal"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Long\nTotal"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Tramo\nPerd"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Acumulada"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Presion\ninicial"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Presion\n final"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Velocidad"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+
+                cell = PdfPCell()
+                cell.colspan = 9
+
+                list.forEach {
+                    table.addCell("1-2")
+                    table.addCell(it.flow.twoDigits())
+                    table.addCell(it.measurePipeline.twoDigits())
+                    table.addCell(it.measureTotal.twoDigits())
+                    table.addCell(it.sectionLosses.twoDigits())
+                    table.addCell(it.allLosses.twoDigits())
+                    table.addCell(it.pressureInitial.twoDigits())
+                    table.addCell(it.pressureSection.twoDigits())
+                    table.addCell(it.velocityFinal.twoDigits())
                 }
                 table.addCell(cell)
                 doc.add(table)
