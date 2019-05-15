@@ -195,7 +195,7 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                 }
 
                 if (lastSection) {
-                    ShowDataDialog().show(supportFragmentManager, listData)
+                    viewModel.createPDFHydro(listData, resources)
                 }
             } else {
                 if (tempData == null) {

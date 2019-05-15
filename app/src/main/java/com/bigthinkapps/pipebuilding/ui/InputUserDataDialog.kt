@@ -64,8 +64,8 @@ class InputUserDataDialog : DialogFragment() {
     private fun setData(isFinish: Boolean) {
         dataUser.hunterUnits = textHunterUnits.getInt()
         dataUser.ks = textKs.getDouble()
-        dataUser.measurePipeline += textVerticalLongitude.getDouble()
-        dataUser.measurePipeline += textLongitudeAccessories.getDouble()
+        dataUser.measureVertical = textVerticalLongitude.getDouble()
+        dataUser.measureAccessories = textLongitudeAccessories.getDouble()
         result.invoke(dataUser, isFinish, checkLastRoute.isChecked)
         dismiss()
     }
