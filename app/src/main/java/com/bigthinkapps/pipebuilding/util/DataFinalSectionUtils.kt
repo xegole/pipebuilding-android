@@ -75,6 +75,7 @@ object DataFinalSectionUtils {
         val valueDataPipeline = dataSanitary.pipeLineSanitaryDiameter
         val flow = 0.0004 * Math.pow(dataSanitary.unitsHunter.toDouble(), 0.5196)
         val flowQo = (valueDataPipeline.value * Math.sqrt(dataSanitary.pending / 100.0)) / 1000
+        dataSanitary.flow = flow
         return flow / flowQo
     }
 

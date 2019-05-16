@@ -184,53 +184,58 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell.border = Rectangle.NO_BORDER
                 pt.addCell(cell)
 
-                val pTable = PdfPTable(1)
+                val numColumns = 9
+
+                val pTable = PdfPTable(numColumns)
                 pTable.widthPercentage = 100f
                 cell = PdfPCell()
                 cell.colspan = 1
                 cell.addElement(pt)
                 pTable.addCell(cell)
-                val table = PdfPTable(8)
+                val table = PdfPTable(9)
 
-                val columnWidth = floatArrayOf(15f, 15f, 10f, 10f, 10f, 10f, 10f, 10f)
+                val columnWidth = floatArrayOf(13f, 10f, 15f, 9f, 9f, 9f, 9f, 9f, 9f)
                 table.setWidths(columnWidth)
 
 
                 cell = PdfPCell()
                 cell.backgroundColor = myColor
-                cell.colspan = 8
+                cell.colspan = numColumns
                 cell.addElement(pTable)
                 table.addCell(cell)
                 cell = PdfPCell(Phrase(" "))
-                cell.colspan = 8
+                cell.colspan = numColumns
                 table.addCell(cell)
                 cell = PdfPCell()
-                cell.colspan = 8
+                cell.colspan = numColumns
 
                 cell.backgroundColor = myColor1
 
                 cell = PdfPCell(Phrase("Tramo"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
+                cell = PdfPCell(Phrase("Q\nm3/s"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
                 cell = PdfPCell(Phrase("Unidades acumuladas"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Qd"))
+                cell = PdfPCell(Phrase("Qd\nm3/s"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Yd"))
+                cell = PdfPCell(Phrase("Yd\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Vd"))
+                cell = PdfPCell(Phrase("Vd\nm/s"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Dd"))
+                cell = PdfPCell(Phrase("Dd\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Ad"))
+                cell = PdfPCell(Phrase("Ad\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Td"))
+                cell = PdfPCell(Phrase("Td\nKg/m2"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
 
@@ -241,6 +246,7 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                     val dataManifold = it.dataManifold
                     table.addCell("1-2")
                     table.addCell(it.unitsHunter.toString())
+                    table.addCell(it.flow.twoDigits())
                     table.addCell(dataManifold?.qd?.digits(3))
                     table.addCell(dataManifold?.yd?.digits(3))
                     table.addCell(dataManifold?.vd?.digits(3))
@@ -331,28 +337,28 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell = PdfPCell(Phrase("Tramo"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Diametro"))
+                cell = PdfPCell(Phrase("Diámetro"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Q"))
+                cell = PdfPCell(Phrase("Q\nm3/s"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Horizontal"))
+                cell = PdfPCell(Phrase("Horizontal\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Vertical"))
+                cell = PdfPCell(Phrase("Vertical\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Accesorios"))
+                cell = PdfPCell(Phrase("Accesorios\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Total"))
+                cell = PdfPCell(Phrase("Total\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("J"))
+                cell = PdfPCell(Phrase("J\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Presion"))
+                cell = PdfPCell(Phrase("Presion\nmca"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
 
@@ -454,13 +460,13 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell = PdfPCell(Phrase("Tramo"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Caudal"))
+                cell = PdfPCell(Phrase("Caudal\nm3/h"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Nominal"))
+                cell = PdfPCell(Phrase("Diámetro"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Long\nTotal"))
+                cell = PdfPCell(Phrase("Long\nTotal m"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
                 cell = PdfPCell(Phrase("Tramo\nPerd"))
@@ -469,13 +475,13 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell = PdfPCell(Phrase("Acumulada"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Presion\ninicial"))
+                cell = PdfPCell(Phrase("Presion\ninicial mbar"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Presion\n final"))
+                cell = PdfPCell(Phrase("Presion\nfinal mbar"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Velocidad"))
+                cell = PdfPCell(Phrase("Velocidad\nm/s"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
 
@@ -580,7 +586,7 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell = PdfPCell(Phrase("Unidades hunter"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Caudal"))
+                cell = PdfPCell(Phrase("Caudal\nm3/s"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
 

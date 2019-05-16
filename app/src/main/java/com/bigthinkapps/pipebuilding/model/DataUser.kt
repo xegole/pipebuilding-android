@@ -8,7 +8,7 @@ class DataUser {
     var measurePipeline = 0.0
     var measureAccessories = 0.0
     var measureVertical = 0.0
-    var ks = 0.00000015
+    var ks = 0.0000015
     var pressureFinal = 0.0
     var flowSection = 0.0
     var totalLosses = 0.0
