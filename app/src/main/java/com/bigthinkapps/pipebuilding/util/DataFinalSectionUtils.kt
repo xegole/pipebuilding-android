@@ -19,13 +19,13 @@ object DataFinalSectionUtils {
         val lostSpeedSection = Math.pow(speedSection, 2.0) / (2 * GRAVITY)
         val reynoldSection = (realDiameter * speedSection) / viscosity
         val frictionCoefficient = getFrictionCoefficient(dataUser, reynoldSection)
-        val unitLosses = frictionCoefficient * (1 / realDiameter) * (speedSection / 2 * GRAVITY)
+        val unitLosses = frictionCoefficient * (1 / realDiameter) * (speedSection / (2 * GRAVITY))
         val totalLosses = unitLosses * measureTotal
 
         dataUser.flowSection = flowSection.toDouble()
         dataUser.totalLosses = totalLosses
 
-        return pressure + lostSpeedSection + totalLosses
+        return pressure + lostSpeedSection + totalLosses + dataUser.measureVertical
     }
 
     private fun getFlowSection(diameter: PipeLineDiameter, totalUnitsHunter: Int): BigDecimal {
@@ -41,12 +41,13 @@ object DataFinalSectionUtils {
         for (i in 0..100) {
             val fi = 1 / Math.pow(
                 -2 * (Math.log(
-                    (ks / (3.7 * realDiameter)) + (2.51 / Math.pow(
-                        reynoldSection * frictionCoefficient,
+                    (ks / (3.7 * realDiameter)) + (2.51 / (reynoldSection * Math.pow(
+                        frictionCoefficient,
                         0.5
-                    ))
+                    )))
                 ) / Math.log(10.0)), 2.0
             )
+
             frictionCoefficient = fi
         }
         return frictionCoefficient

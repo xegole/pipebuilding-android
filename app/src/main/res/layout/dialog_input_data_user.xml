@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/global_margin_big"
-        android:text="Diametro tuberia"
+        android:text="Diámetro tubería"
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="@+id/inputHunterUnits"
         app:layout_constraintTop_toBottomOf="@id/inputHunterUnits" />
@@ -54,9 +54,10 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/global_margin_x_big"
-        android:hint="Ingrese longitud de accesorios"
+        android:hint="Ingrese longitud de accesorios (metros)"
         android:theme="@style/TextInputLayoutAppearance"
         app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spinnerDiameterPipeline">
 
@@ -74,11 +75,12 @@
         android:id="@+id/inputKs"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Ingrese Ks"
+        android:hint="Ingrese Ks (milimetros)"
         android:theme="@style/TextInputLayoutAppearance"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/inputHunterUnits"
+        app:layout_constraintStart_toStartOf="@+id/inputHunterUnits"
         app:layout_constraintTop_toBottomOf="@id/inputLongitudeAccessories">
+
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/textKs"
@@ -95,7 +97,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/global_margin_big"
-        android:text="Ingresar longitud vertical"
+        android:text="Ingresar longitud vertical (metros)"
         android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -20,10 +20,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.bigthinkapps.pipebuilding.BuildConfig
 import com.bigthinkapps.pipebuilding.R
-import com.bigthinkapps.pipebuilding.extension.checkPermissions
-import com.bigthinkapps.pipebuilding.extension.digits
-import com.bigthinkapps.pipebuilding.extension.getString
-import com.bigthinkapps.pipebuilding.extension.twoDigits
+import com.bigthinkapps.pipebuilding.extension.*
 import com.bigthinkapps.pipebuilding.model.*
 import com.bigthinkapps.pipebuilding.ui.InputDataDialog
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_CODE_GALLERY
@@ -368,7 +365,7 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 list.forEach {
                     table.addCell("1-2")
                     table.addCell(it.diameterPipeline.realDiameter.toString())
-                    table.addCell(it.flowSection.twoDigits())
+                    table.addCell(it.flowSection.byDigits(6))
                     table.addCell(it.measurePipeline.twoDigits())
                     table.addCell(it.measureVertical.twoDigits())
                     table.addCell(it.measureAccessories.twoDigits())
