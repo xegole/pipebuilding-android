@@ -1,8 +1,8 @@
 package com.bigthinkapps.pipebuilding.model
 
-data class TemperatureData(val temperature: Int, val viscosity: String){
+data class TemperatureData(val temperature: Int, val viscosity: String) {
 
     override fun toString(): String {
-        return " $temperature⁰"
+        return "$temperature⁰C"
     }
 }
