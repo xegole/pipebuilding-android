@@ -10,15 +10,15 @@
 
     <string name="label_gallery">Gallery</string>
 
-    <string name="hint_label_type_building">Tipo de edificacion</string>
-    <string name="hint_label_floors_number">Numero de pisos</string>
+    <string name="hint_label_type_building">Tipo de edificación</string>
+    <string name="hint_label_floors_number">Número de pisos</string>
     <string name="hint_label_height_floor">Altura entre pisos</string>
     <string name="hint_label_temperature">Temperatura</string>
-    <string name="hint_label_level_social">Estracto</string>
+    <string name="hint_label_level_social">Estrato</string>
     <string name="hint_label_total_apartments">Total apartamentos</string>
-    <string name="hint_label_population">Dotacion poblacion</string>
+    <string name="hint_label_population">Dotación población</string>
     <string name="hint_label_tank_filling_time">Tiempo llenado de tanque</string>
-    <string name="hint_label_measurer_location">Ubicacion de medidores</string>
+    <string name="hint_label_measurer_location">Ubicación de medidores</string>
     <string name="hint_label_hunter_units">Unidades de hunter</string>
     <string name="hint_label_measurer_capacity">Capacidad medidor(porcentaje)</string>
 
