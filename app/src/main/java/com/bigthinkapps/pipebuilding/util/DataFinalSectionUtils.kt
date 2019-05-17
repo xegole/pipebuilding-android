@@ -1,9 +1,6 @@
 package com.bigthinkapps.pipebuilding.util
 
-import com.bigthinkapps.pipebuilding.model.DataGas
-import com.bigthinkapps.pipebuilding.model.DataManifold
-import com.bigthinkapps.pipebuilding.model.DataSanitary
-import com.bigthinkapps.pipebuilding.model.DataUser
+import com.bigthinkapps.pipebuilding.model.*
 import java.math.BigDecimal
 
 object DataFinalSectionUtils {
@@ -58,11 +55,12 @@ object DataFinalSectionUtils {
         val longitudeProm = dataGas.measurePipeline * 0.2
         val longitudeTotal = longitudeProm + dataGas.measurePipeline
         val sectionLosses =
-            (23200 * longitudeTotal * longitudeProm * Math.pow(dataGas.flow, 1.82)) * Math.pow(diameterSI, -4.82)
+            (23200 * longitudeTotal * 0.67 * Math.pow(dataGas.flow, 1.82)) * Math.pow(diameterSI, -4.82)
         val pressureSection = pressure - sectionLosses
         val totalLosses = sectionLosses + allLosses
-        val sectionVelocity =
-            254 * dataGas.flow * (0.7236 + Math.pow((20.8 - totalLosses) / 1000, -1.0)) * Math.pow(diameterSI, -2.0)
+        val part0 = 0.7236 + ((20.8 - totalLosses) / 1000)
+        val part1 = Math.pow(part0, -1.0)
+        val sectionVelocity = 354 * dataGas.flow * part1 * Math.pow(diameterSI, -2.0)
         dataGas.sectionVelocity = sectionVelocity
         dataGas.pressureSection = pressureSection
         dataGas.allLosses = totalLosses
@@ -72,11 +70,11 @@ object DataFinalSectionUtils {
         return dataGas
     }
 
-    fun getFlowQo(dataSanitary: DataSanitary): Double {
+    fun getFlowQo(dataSanitary: DataSanitary, listener: (Double) -> Unit): Double {
         val valueDataPipeline = dataSanitary.pipeLineSanitaryDiameter
         val flow = 0.0004 * Math.pow(dataSanitary.unitsHunter.toDouble(), 0.5196)
         val flowQo = (valueDataPipeline.value * Math.sqrt(dataSanitary.pending / 100.0)) / 1000
-        dataSanitary.flow = flow
+        listener.invoke(flow)
         return flow / flowQo
     }
 
@@ -98,5 +96,15 @@ object DataFinalSectionUtils {
 
     fun getFlowDownPipe(unitHunter: Int): Double {
         return 0.0004 * Math.pow(unitHunter.toDouble(), 0.5196)
+    }
+
+    fun getRci(areaS: Double, areaC: Double, listener: (DataRci) -> Unit) {
+        val totalCoverage = areaS + areaC
+        val extensorTotals = totalCoverage / 19.63
+        val dataRci = DataRci()
+        dataRci.coverageArea = totalCoverage
+        dataRci.extensorTotals = extensorTotals.toInt()
+        listener.invoke(dataRci)
+
     }
 }

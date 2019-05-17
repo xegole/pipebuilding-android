@@ -23,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
+            android:text="Residencia"
             android:textColor="@color/colorPrimary" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -68,21 +69,44 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputFamiliarRate"
+        android:id="@+id/inputAreaS"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:hint="Clasificacion familiar"
+        android:hint="Area sotano m2"
         android:theme="@style/TextInputLayoutAppearance"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inputFloor">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/textFamiliaRate"
+            android:id="@+id/textAreaS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:maxLength="10"
+            android:text="0"
+            android:textColor="@color/colorPrimary" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputAreaC"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="Areas comunes m2"
+        android:theme="@style/TextInputLayoutAppearance"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputAreaS">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textAreaC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:maxLength="10"
+            android:text="0"
             android:textColor="@color/colorPrimary" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -96,5 +120,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/inputFamiliarRate" />
+        app:layout_constraintTop_toBottomOf="@+id/inputAreaC" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@
         <item>&#189;\"</item>
         <item>&#190;\"</item>
         <item>1\"</item>
+        <item>1 &#189;\"</item>
     </string-array>
 
     <string-array name="type_diameter_pipeline_sanitary">
@@ -23,8 +24,8 @@
     </string-array>
 
     <string-array name="type_sub_group">
-        <item>R-1</item>
-        <item>R-2</item>
+        <item>R-1 / Unifamiliar</item>
+        <item>R-2 / Multifamiliar</item>
     </string-array>
 
     <string-array name="measure_type">

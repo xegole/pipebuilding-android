@@ -71,8 +71,11 @@ class InputDataSanitaryDialog : DialogFragment() {
 
     private fun flowPipe() {
         dataSanitary.unitsHunter = textHunterUnits.getInt()
-        dataSanitary.pending = textKs.getInt()
-        labelBaseFlow.text = DataFinalSectionUtils.getFlowQo(dataSanitary).digits(2)
+        dataSanitary.pending = textKs.getDouble()
+        val flowQo = DataFinalSectionUtils.getFlowQo(dataSanitary) {
+            dataSanitary.flow = it
+        }
+        labelBaseFlow.text = flowQo.digits(2)
     }
 
     private fun setData(isFinish: Boolean) {

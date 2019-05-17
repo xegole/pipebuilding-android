@@ -242,14 +242,14 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 list.forEach {
                     val dataManifold = it.dataManifold
                     table.addCell("1-2")
+                    table.addCell(it.flow.digits(3))
                     table.addCell(it.unitsHunter.toString())
-                    table.addCell(it.flow.twoDigits())
-                    table.addCell(dataManifold?.qd?.digits(3))
-                    table.addCell(dataManifold?.yd?.digits(3))
-                    table.addCell(dataManifold?.vd?.digits(3))
-                    table.addCell(dataManifold?.dd?.digits(3))
-                    table.addCell(dataManifold?.ad?.digits(3))
-                    table.addCell(dataManifold?.td?.digits(3))
+                    table.addCell(dataManifold?.qd?.digits(4))
+                    table.addCell(dataManifold?.yd?.digits(4))
+                    table.addCell(dataManifold?.vd?.digits(4))
+                    table.addCell(dataManifold?.dd?.digits(4))
+                    table.addCell(dataManifold?.ad?.digits(4))
+                    table.addCell(dataManifold?.td?.digits(4))
                 }
                 table.addCell(cell)
                 doc.add(table)
@@ -488,14 +488,118 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 list.forEach {
                     table.addCell("1-2")
                     table.addCell(it.flow.twoDigits())
-                    table.addCell(it.measurePipeline.twoDigits())
+                    table.addCell(it.pipeLineGasDiameter.valueName)
                     table.addCell(it.measureTotal.twoDigits())
-                    table.addCell(it.sectionLosses.twoDigits())
-                    table.addCell(it.allLosses.twoDigits())
+                    table.addCell(it.sectionLosses.digits(3))
+                    table.addCell(it.allLosses.digits(3))
                     table.addCell(it.pressureInitial.twoDigits())
                     table.addCell(it.pressureSection.twoDigits())
-                    table.addCell(it.velocityFinal.twoDigits())
+                    table.addCell(it.sectionVelocity.twoDigits())
                 }
+                table.addCell(cell)
+                doc.add(table)
+            } catch (de: DocumentException) {
+                de.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } finally {
+                doc.close()
+            }
+            Handler().postDelayed({
+                openPdf(file)
+            }, 1000)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun createPDFRci(data: DataRci, resources: Resources) {
+        val doc = Document()
+        try {
+            val pathname = Environment.getExternalStorageDirectory().path + "/danahonet/"
+            val dir = File(pathname)
+            dir.mkdir()
+            val file = File(dir, "rci.pdf")
+            val fOut = FileOutputStream(file)
+            PdfWriter.getInstance(doc, fOut)
+
+            //open the document
+            doc.open()
+            //create table
+            val pt = PdfPTable(3)
+            pt.widthPercentage = 100f
+            val fl = floatArrayOf(20f, 45f, 35f)
+            pt.setWidths(fl)
+            var cell = PdfPCell()
+            cell.border = Rectangle.NO_BORDER
+
+            //set drawable in cell
+            val myImage = resources.getDrawable(R.mipmap.ic_launcher)
+            val bitmap = (myImage as BitmapDrawable).bitmap
+            val stream = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val bitmapData = stream.toByteArray()
+            try {
+                val bgImage = Image.getInstance(bitmapData)
+                bgImage.setAbsolutePosition(330f, 642f)
+                cell.addElement(bgImage)
+                pt.addCell(cell)
+                cell = PdfPCell()
+                cell.border = Rectangle.NO_BORDER
+                cell.addElement(Paragraph("Danahonet"))
+                pt.addCell(cell)
+                cell = PdfPCell(Paragraph(""))
+                cell.border = Rectangle.NO_BORDER
+                pt.addCell(cell)
+
+                val pTable = PdfPTable(1)
+                pTable.widthPercentage = 100f
+                cell = PdfPCell()
+                cell.colspan = 1
+                cell.addElement(pt)
+                pTable.addCell(cell)
+                val table = PdfPTable(5)
+                val columnWidth = floatArrayOf(13f, 18f, 13f, 18f, 18f)
+                table.setWidths(columnWidth)
+
+
+                cell = PdfPCell()
+                cell.backgroundColor = myColor
+                cell.colspan = 5
+                cell.addElement(pTable)
+                table.addCell(cell)
+                cell = PdfPCell(Phrase(" "))
+                cell.colspan = 5
+                table.addCell(cell)
+                cell = PdfPCell()
+                cell.colspan = 5
+
+                cell.backgroundColor = myColor1
+
+                cell = PdfPCell(Phrase("Grupo"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Subgrupo"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Pisos"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Areá a cubrir"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+                cell = PdfPCell(Phrase("Total rociadores"))
+                cell.backgroundColor = myColor1
+                table.addCell(cell)
+
+                cell = PdfPCell()
+                cell.colspan = 5
+
+                table.addCell("Residencial")
+                table.addCell(data.subGroup + " " + data.typeGroup)
+                table.addCell(data.floors.toString())
+                table.addCell(data.coverageArea.toString())
+                table.addCell(data.extensorTotals.toString())
                 table.addCell(cell)
                 doc.add(table)
             } catch (de: DocumentException) {

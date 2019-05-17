@@ -6,7 +6,7 @@ class DataSanitary {
     var pipeLineSanitaryDiameter = PipeLineSanitaryDiameter.getByPosition(0)
     var measurePipeline = 0.0
     var unitsHunter = 0
-    var pending = 0
+    var pending = 0.0
     var dataManifold: DataManifold? = null
     var flow = 0.0
 

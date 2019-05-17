@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -146,6 +147,7 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
     private fun showDialogGas(distance: Double) {
         InputDataGasDialog().show(distance, supportFragmentManager) { dataGas, isFinish, lastSection ->
             val data = DataFinalSectionUtils.getFinalVelocity(dataGas, currentPressureGas, allLosses)
+            currentPressureGas = data.pressureSection
             allLosses = data.allLosses
 
             if (isFinish) {
@@ -163,6 +165,7 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
 
                 if (lastSection) {
                     viewModel.createPDFGas(listDataGas, resources)
+                    currentPressureGas = 21.0
                 }
             } else {
                 if (tempDataGas == null) {
@@ -239,8 +242,14 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                 R.id.fabSave -> {
                     containerImageEdit.getBitmapScreen(viewModel::saveProject)
                 }
-                R.id.fabRci -> InputDataRCIDialog().show(supportFragmentManager) { data, isFinish ->
-
+                R.id.fabRci -> InputDataRCIDialog().show(supportFragmentManager) { data, createPdf ->
+                    if (createPdf) {
+                        data?.let { dataRci ->
+                            viewModel.createPDFRci(dataRci, resources)
+                        }
+                    } else {
+                        Toast.makeText(this, "No se necesitan rociadores", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

@@ -9,25 +9,27 @@ import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import com.bigthinkapps.pipebuilding.R
-import com.bigthinkapps.pipebuilding.model.DataSanitary
+import com.bigthinkapps.pipebuilding.extension.getDouble
+import com.bigthinkapps.pipebuilding.extension.getInt
+import com.bigthinkapps.pipebuilding.model.DataRci
 import com.bigthinkapps.pipebuilding.util.Constants
 import com.bigthinkapps.pipebuilding.util.Constants.TAG_DIALOG_USER
-import com.bigthinkapps.pipebuilding.util.PipeLineSanitaryDiameter
+import com.bigthinkapps.pipebuilding.util.DataFinalSectionUtils
 import kotlinx.android.synthetic.main.dialog_input_data_rci.*
 
 
 class InputDataRCIDialog : DialogFragment() {
-
-    private val dataSanitary = DataSanitary()
-    private lateinit var result: (DataSanitary, Boolean) -> Unit?
+    private lateinit var result: (DataRci?, Boolean) -> Unit?
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_input_data_rci, container, false)
     }
 
+    var currentType = 0
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        buttonFinish.setOnClickListener { setData(true) }
+        buttonFinish.setOnClickListener { setData() }
 
         val adapter =
             ArrayAdapter.createFromResource(
@@ -43,18 +45,40 @@ class InputDataRCIDialog : DialogFragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                dataSanitary.pipeLineSanitaryDiameter = PipeLineSanitaryDiameter.getByPosition(position)
+                currentType = position
+                if (currentType == 0) {
+                    inputAreaS.visibility = View.GONE
+                    inputAreaC.visibility = View.GONE
+                }
             }
         }
     }
 
-    fun show(fragmentManager: FragmentManager, result: (DataSanitary, Boolean) -> Unit) {
+    fun show(fragmentManager: FragmentManager, result: (DataRci?, Boolean) -> Unit) {
         show(fragmentManager, TAG_DIALOG_USER)
         this.result = result
     }
 
-    private fun setData(isFinish: Boolean) {
-        result.invoke(dataSanitary, isFinish)
-        dismiss()
+    private fun setData() {
+        val floors = textFloor.getInt()
+        if (currentType == 1 && floors >= 7) {
+            inputAreaS.visibility = View.VISIBLE
+            inputAreaC.visibility = View.VISIBLE
+
+            val areaS = textAreaS.getDouble()
+            val areaC = textAreaC.getDouble()
+
+            if (areaC != 0.0 && areaS != 0.0) {
+                DataFinalSectionUtils.getRci(areaS, areaC) {
+                    it.floors = floors
+                    result.invoke(it, true)
+                    dismiss()
+                }
+            }
+        } else {
+            result.invoke(null, false)
+            dismiss()
+        }
+
     }
 }
