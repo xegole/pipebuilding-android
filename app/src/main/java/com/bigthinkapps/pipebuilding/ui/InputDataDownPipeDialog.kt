@@ -20,6 +20,7 @@ import kotlinx.android.synthetic.main.dialog_input_data_downpipe.*
 class InputDataDownPipeDialog : DialogFragment() {
 
     private val dataSanitary = DataDownPipe()
+    private val dataSanitaryTemp = DataDownPipe()
     private lateinit var result: (DataDownPipe, Boolean, Boolean) -> Unit?
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -44,7 +45,7 @@ class InputDataDownPipeDialog : DialogFragment() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                dataSanitary.diameter = PipeLineSanitaryDiameter.getByPosition(position).diameter
+                dataSanitaryTemp.diameter = PipeLineSanitaryDiameter.getByPosition(position).diameter
             }
         }
     }
@@ -56,7 +57,14 @@ class InputDataDownPipeDialog : DialogFragment() {
 
     private fun setData(isFinish: Boolean) {
         dataSanitary.unitsHunter = textHunterUnits.getInt()
-        result.invoke(dataSanitary, isFinish, checkLastRoute.isChecked)
-        dismiss()
+        if (checkPlusFloor.isChecked) {
+            dataSanitaryTemp.unitsHunter = textHunterUnits.getInt()
+            textVerticalLongitude.setText("0")
+            textHunterUnits.setText("0")
+        } else {
+            dataSanitary.unitsHunter += dataSanitaryTemp.unitsHunter
+            result.invoke(dataSanitary, isFinish, checkLastRoute.isChecked)
+            dismiss()
+        }
     }
 }
