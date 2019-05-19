@@ -10,15 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bigthinkapps.pipebuilding.R
-import com.bigthinkapps.pipebuilding.extension.getBitmapScreen
-import com.bigthinkapps.pipebuilding.extension.ifNotNull
-import com.bigthinkapps.pipebuilding.extension.imageByData
-import com.bigthinkapps.pipebuilding.extension.setImageByFile
+import com.bigthinkapps.pipebuilding.extension.*
 import com.bigthinkapps.pipebuilding.model.DataGas
 import com.bigthinkapps.pipebuilding.model.DataSanitary
 import com.bigthinkapps.pipebuilding.model.DataUser
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_CODE_GALLERY
 import com.bigthinkapps.pipebuilding.util.CodeConstants.REQUEST_PERMISSION_GALLERY
+import com.bigthinkapps.pipebuilding.util.Constants
 import com.bigthinkapps.pipebuilding.util.DataFinalSectionUtils
 import com.bigthinkapps.pipebuilding.util.ExtrasContants
 import com.bigthinkapps.pipebuilding.viewmodel.EditViewModel
@@ -92,6 +90,15 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
                 TypePipeline.SANITARY -> showDialogSanitary(it)
                 TypePipeline.DOWN_PIPE -> showDialogDownPipe()
                 else -> showDialogHydro(it)
+            }
+        }
+
+        fingerLineEdit.previewDistance = { distance, isPressed ->
+            if (isPressed) {
+                val label = "Longitud aprox ${distance.twoDigits()} m"
+                labelPreviewDiameter.text = label
+            } else {
+                labelPreviewDiameter.text = Constants.EMPTY_STRING
             }
         }
 

@@ -36,7 +36,7 @@ class InputDataGasDialog : DialogFragment() {
         labelMeasurePipeline.text = labelMeasurePipelineText
 
         val adapter =
-            ArrayAdapter.createFromResource(view.context, R.array.type_diameter_pipeline, R.layout.spinner_item)
+            ArrayAdapter.createFromResource(view.context, R.array.type_diameter_pipeline_gas, R.layout.spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerDiameterPipeline.adapter = adapter
         spinnerDiameterPipeline.setSelection(Constants.FIRST_ITEM)

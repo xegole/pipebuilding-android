@@ -40,6 +40,7 @@ class FingerLine : View {
     private lateinit var drawCanvasLines: Canvas
 
     lateinit var addMeasurePipeline: (Double) -> Unit
+    lateinit var previewDistance: (Double, Boolean) -> Unit
 
     private var isUndo = false
     var isEditable = true
@@ -107,6 +108,7 @@ class FingerLine : View {
                     if (!isDownPipe) {
                         endX = event.x
                         endY = event.y
+                        previewDistance.invoke(getDistance(), true)
                     }
                 }
                 MotionEvent.ACTION_UP -> {
@@ -120,6 +122,7 @@ class FingerLine : View {
                     }
                     isEditable = false
                     addMeasurePipeline(getDistance())
+                    previewDistance.invoke(0.0, false)
                 }
             }
         }

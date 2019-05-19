@@ -25,6 +25,7 @@ class InputUserDataDialog : DialogFragment() {
     private lateinit var result: (DataUser, Boolean, Boolean) -> Unit?
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        dialog?.setCanceledOnTouchOutside(false)
         return inflater.inflate(R.layout.dialog_input_data_user, container, false)
     }
 
