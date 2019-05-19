@@ -183,13 +183,13 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
 
                 val numColumns = 9
 
-                val pTable = PdfPTable(numColumns)
+                val pTable = PdfPTable(1)
                 pTable.widthPercentage = 100f
                 cell = PdfPCell()
                 cell.colspan = 1
                 cell.addElement(pt)
                 pTable.addCell(cell)
-                val table = PdfPTable(9)
+                val table = PdfPTable(numColumns)
 
                 val columnWidth = floatArrayOf(13f, 10f, 15f, 9f, 9f, 9f, 9f, 9f, 9f)
                 table.setWidths(columnWidth)
@@ -237,7 +237,7 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 table.addCell(cell)
 
                 cell = PdfPCell()
-                cell.colspan = 7
+                cell.colspan = numColumns
 
                 list.forEachIndexed { index, dataSanitary ->
                     val dataManifold = dataSanitary.dataManifold
