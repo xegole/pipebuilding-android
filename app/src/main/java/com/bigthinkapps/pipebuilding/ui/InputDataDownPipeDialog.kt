@@ -13,23 +13,25 @@ import com.bigthinkapps.pipebuilding.extension.getInt
 import com.bigthinkapps.pipebuilding.model.DataDownPipe
 import com.bigthinkapps.pipebuilding.util.Constants
 import com.bigthinkapps.pipebuilding.util.Constants.TAG_DIALOG_USER
+import com.bigthinkapps.pipebuilding.util.DataFinalSectionUtils
 import com.bigthinkapps.pipebuilding.util.PipeLineSanitaryDiameter
 import kotlinx.android.synthetic.main.dialog_input_data_downpipe.*
 
 
 class InputDataDownPipeDialog : DialogFragment() {
 
-    private val dataSanitary = DataDownPipe()
+    private val dataDownPipe = DataDownPipe()
     private val dataSanitaryTemp = DataDownPipe()
     private lateinit var result: (DataDownPipe, Boolean, Boolean) -> Unit?
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        dialog?.setCanceledOnTouchOutside(false)
         return inflater.inflate(R.layout.dialog_input_data_downpipe, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        buttonFinish.setOnClickListener { setData(true) }
+        buttonFinish.setOnClickListener { setData() }
 
         val adapter =
             ArrayAdapter.createFromResource(
@@ -55,16 +57,10 @@ class InputDataDownPipeDialog : DialogFragment() {
         this.result = result
     }
 
-    private fun setData(isFinish: Boolean) {
-        dataSanitary.unitsHunter = textHunterUnits.getInt()
-        if (checkPlusFloor.isChecked) {
-            dataSanitaryTemp.unitsHunter = textHunterUnits.getInt()
-            textVerticalLongitude.setText("0")
-            textHunterUnits.setText("0")
-        } else {
-            dataSanitary.unitsHunter += dataSanitaryTemp.unitsHunter
-            result.invoke(dataSanitary, isFinish, checkLastRoute.isChecked)
-            dismiss()
-        }
+    private fun setData() {
+        dataDownPipe.unitsHunter = textHunterUnits.getInt()
+        dataDownPipe.flow = DataFinalSectionUtils.getFlowDownPipe(textHunterUnits.getInt())
+        result.invoke(dataDownPipe, checkPlusFloor.isChecked, checkLastRoute.isChecked)
+        dismiss()
     }
 }

@@ -79,6 +79,5 @@ class InputDataRCIDialog : DialogFragment() {
             result.invoke(null, false)
             dismiss()
         }
-
     }
 }

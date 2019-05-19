@@ -16,7 +16,7 @@ object DataFinalSectionUtils {
         val lostSpeedSection = Math.pow(speedSection, 2.0) / (2 * GRAVITY)
         val reynoldSection = (realDiameter * speedSection) / viscosity
         val frictionCoefficient = getFrictionCoefficient(dataUser, reynoldSection)
-        val unitLosses = frictionCoefficient * (1 / realDiameter) * (speedSection / (2 * GRAVITY))
+        val unitLosses = frictionCoefficient * (1 / realDiameter) * (Math.pow(speedSection, 2.0) / (2 * GRAVITY))
         val totalLosses = unitLosses * measureTotal
 
         dataUser.flowSection = flowSection.toDouble()

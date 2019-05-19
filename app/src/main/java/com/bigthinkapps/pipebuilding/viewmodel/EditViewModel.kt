@@ -239,11 +239,11 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell = PdfPCell()
                 cell.colspan = 7
 
-                list.forEach {
-                    val dataManifold = it.dataManifold
-                    table.addCell("1-2")
-                    table.addCell(it.flow.digits(3))
-                    table.addCell(it.unitsHunter.toString())
+                list.forEachIndexed { index, dataSanitary ->
+                    val dataManifold = dataSanitary.dataManifold
+                    table.addCell("${index + 1}-${index + 2}")
+                    table.addCell(dataSanitary.flow.digits(3))
+                    table.addCell(dataSanitary.unitsHunter.toString())
                     table.addCell(dataManifold?.qd?.digits(4))
                     table.addCell(dataManifold?.yd?.digits(4))
                     table.addCell(dataManifold?.vd?.digits(4))
@@ -355,23 +355,23 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell = PdfPCell(Phrase("J\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Presion\nmca"))
+                cell = PdfPCell(Phrase("Presión\nmca"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
 
                 cell = PdfPCell()
                 cell.colspan = 9
 
-                list.forEach {
-                    table.addCell("1-2")
-                    table.addCell(it.diameterPipeline.realDiameter.toString())
-                    table.addCell(it.flowSection.byDigits(6))
-                    table.addCell(it.measurePipeline.twoDigits())
-                    table.addCell(it.measureVertical.twoDigits())
-                    table.addCell(it.measureAccessories.twoDigits())
-                    table.addCell(it.measureTotal().twoDigits())
-                    table.addCell(it.totalLosses.twoDigits())
-                    table.addCell(it.pressureFinal.twoDigits())
+                list.forEachIndexed { index, dataUser ->
+                    table.addCell("${index + 1}-${index + 2}")
+                    table.addCell(dataUser.diameterPipeline.realDiameter.toString())
+                    table.addCell(dataUser.flowSection.byDigits(6))
+                    table.addCell(dataUser.measurePipeline.twoDigits())
+                    table.addCell(dataUser.measureVertical.twoDigits())
+                    table.addCell(dataUser.measureAccessories.twoDigits())
+                    table.addCell(dataUser.measureTotal().twoDigits())
+                    table.addCell(dataUser.totalLosses.twoDigits())
+                    table.addCell(dataUser.pressureFinal.twoDigits())
                 }
                 table.addCell(cell)
                 doc.add(table)
@@ -460,22 +460,22 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell = PdfPCell(Phrase("Caudal\nm3/h"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Diámetro"))
+                cell = PdfPCell(Phrase("Diámetro\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Long\nTotal m"))
+                cell = PdfPCell(Phrase("Long\nTotal\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Tramo\nPerd"))
+                cell = PdfPCell(Phrase("Tramo\nPerd\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Acumulada"))
+                cell = PdfPCell(Phrase("Acumulada\nm"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Presion\ninicial mbar"))
+                cell = PdfPCell(Phrase("Presión\ninicial mbar"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
-                cell = PdfPCell(Phrase("Presion\nfinal mbar"))
+                cell = PdfPCell(Phrase("Presión\nfinal mbar"))
                 cell.backgroundColor = myColor1
                 table.addCell(cell)
                 cell = PdfPCell(Phrase("Velocidad\nm/s"))
@@ -485,16 +485,16 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell = PdfPCell()
                 cell.colspan = 9
 
-                list.forEach {
-                    table.addCell("1-2")
-                    table.addCell(it.flow.twoDigits())
-                    table.addCell(it.pipeLineGasDiameter.valueName)
-                    table.addCell(it.measureTotal.twoDigits())
-                    table.addCell(it.sectionLosses.digits(3))
-                    table.addCell(it.allLosses.digits(3))
-                    table.addCell(it.pressureInitial.twoDigits())
-                    table.addCell(it.pressureSection.twoDigits())
-                    table.addCell(it.sectionVelocity.twoDigits())
+                list.forEachIndexed { index, dataGas ->
+                    table.addCell("${index + 1}-${index + 2}")
+                    table.addCell(dataGas.flow.twoDigits())
+                    table.addCell(dataGas.pipeLineGasDiameter.valueName)
+                    table.addCell(dataGas.measureTotal.twoDigits())
+                    table.addCell(dataGas.sectionLosses.digits(3))
+                    table.addCell(dataGas.allLosses.digits(3))
+                    table.addCell(dataGas.pressureInitial.twoDigits())
+                    table.addCell(dataGas.pressureSection.twoDigits())
+                    table.addCell(dataGas.sectionVelocity.twoDigits())
                 }
                 table.addCell(cell)
                 doc.add(table)
@@ -617,7 +617,7 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun createPdfDownPipe(dataDownPipe: DataDownPipe, resources: Resources) {
+    fun createPdfDownPipe(list: List<DataDownPipe>, resources: Resources) {
         val doc = Document()
         try {
             val pathname = Environment.getExternalStorageDirectory().path + "/danahonet/"
@@ -694,9 +694,11 @@ class EditViewModel(application: Application) : AndroidViewModel(application) {
                 cell = PdfPCell()
                 cell.colspan = 3
 
-                table.addCell("1")
-                table.addCell(dataDownPipe.unitsHunter.toString())
-                table.addCell(dataDownPipe.flow.toString())
+                list.forEachIndexed { index, dataDownPipe ->
+                    table.addCell("${index + 1}")
+                    table.addCell(dataDownPipe.unitsHunter.toString())
+                    table.addCell(dataDownPipe.flow.toString())
+                }
 
                 table.addCell(cell)
                 doc.add(table)

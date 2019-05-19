@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bigthinkapps.pipebuilding.R
 import com.bigthinkapps.pipebuilding.extension.*
+import com.bigthinkapps.pipebuilding.model.DataDownPipe
 import com.bigthinkapps.pipebuilding.model.DataGas
 import com.bigthinkapps.pipebuilding.model.DataSanitary
 import com.bigthinkapps.pipebuilding.model.DataUser
@@ -36,6 +37,7 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
     private val listData = ArrayList<DataUser>()
     private val listDataGas = ArrayList<DataGas>()
     private val listDataSanitary = ArrayList<DataSanitary>()
+    private val listDataDownPipe = ArrayList<DataDownPipe>()
 
     private var tempData: DataUser? = null
     private var tempDataGas: DataGas? = null
@@ -143,10 +145,15 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
     }
 
     private fun showDialogDownPipe() {
-        InputDataDownPipeDialog().show(supportFragmentManager) { dataDownPipe, isFinish, lastSection ->
-            dataDownPipe.flow = DataFinalSectionUtils.getFlowDownPipe(dataDownPipe.unitsHunter)
-            if (isFinish && lastSection) {
-                viewModel.createPdfDownPipe(dataDownPipe, resources)
+        InputDataDownPipeDialog().show(supportFragmentManager) { dataDownPipe, addFloor, lastSection ->
+            if (addFloor && !lastSection) {
+                listDataDownPipe.add(dataDownPipe)
+                showDialogDownPipe()
+            }
+
+            if (lastSection) {
+                listDataDownPipe.add(dataDownPipe)
+                viewModel.createPdfDownPipe(listDataDownPipe, resources)
             }
         }
     }
@@ -189,7 +196,6 @@ class EditActivity : AppCompatActivity(), SpeedDialView.OnActionSelectedListener
         InputUserDataDialog().show(distance, supportFragmentManager) { data, isFinish, lastSection ->
             currentPressure =
                 DataFinalSectionUtils.getFinalPressureSection(data, viscosity, currentPressure)
-            currentPressure /= 100
             data.pressureFinal = currentPressure
 
             if (isFinish) {
