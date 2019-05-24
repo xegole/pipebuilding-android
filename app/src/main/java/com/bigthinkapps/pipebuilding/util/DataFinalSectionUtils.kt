@@ -100,11 +100,10 @@ object DataFinalSectionUtils {
 
     fun getRci(areaS: Double, areaC: Double, listener: (DataRci) -> Unit) {
         val totalCoverage = areaS + areaC
-        val extensorTotals = totalCoverage / 19.63
+        val extensorTotals = Math.ceil(totalCoverage / 19.63)
         val dataRci = DataRci()
         dataRci.coverageArea = totalCoverage
         dataRci.extensorTotals = extensorTotals.toInt()
         listener.invoke(dataRci)
-
     }
 }
